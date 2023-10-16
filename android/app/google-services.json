@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "224702379481",
+    "project_id": "easilygo-e5baa",
+    "storage_bucket": "easilygo-e5baa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224702379481:android:17f2a4dfc03b63e7ff95c8",
+        "android_client_info": {
+          "package_name": "com.example.easylygo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224702379481-uepsspl113jv10mscpq68big3p4srn9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.easylygo_app",
+            "certificate_hash": "fdfcf9b85385b8a17f89ff197b15e9583722f244"
+          }
+        },
+        {
+          "client_id": "224702379481-5so9049uh8gpsf3etfmbau1n0nt3n5c3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPMBxEKWfCvQ6w4kGQTEErGPBkV2I8p30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224702379481-5so9049uh8gpsf3etfmbau1n0nt3n5c3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224702379481-2g2pie8l31j9hmpvpklmr13j6g2bbcj3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.easylygoApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

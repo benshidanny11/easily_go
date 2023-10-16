@@ -1,0 +1,2 @@
+
+String USER_MODE="CUSTOMER_MODE";
