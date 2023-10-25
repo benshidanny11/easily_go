@@ -15,7 +15,7 @@ class InputDecorations {
               focusedBorder:const UnderlineInputBorder(
                       borderSide: BorderSide(color: AppColors.colorTextBodyLight),
                    ),
-                   errorText: validate? '$label can\'t be empty':null
+                   errorText: validate? '$label can\'t be empty':null,         
                    );
   }
 

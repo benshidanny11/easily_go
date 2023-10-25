@@ -22,7 +22,7 @@ class AlertUtil{
       }
       return alert;  
     },  
-  );  
+  ); 
  }
 
 }

@@ -1,4 +1,5 @@
 import 'package:easylygo_app/constants/string_constants.dart';
+import 'package:easylygo_app/models/LocationModel.dart';
 
 class UserModel {
   String? fullName;
@@ -9,8 +10,8 @@ class UserModel {
   String userRole;
   DateTime? regDate;
   String? imageUrl;
-
-
+  String? status;
+  LocationModel? location;
 
   UserModel(
       { this.fullName,
@@ -20,7 +21,9 @@ class UserModel {
         this.homeAddress,
         this.userRole=CUSTOMER_ROLE,
         this.regDate,
-        this.imageUrl});
+        this.imageUrl,
+        this.status,
+        this.location});
   Map<String, dynamic> toJson() {
     return {
       "fullName": fullName,
@@ -30,11 +33,13 @@ class UserModel {
       "homeAddress": homeAddress,
       "userRole":userRole,
       "regDate":regDate,
-      "imageUrl":imageUrl
+      "imageUrl":imageUrl,
+       "status":status,
+       "location":location!=null ? location!.toJson(): null
     };
   }
 
-  UserModel fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(dynamic json) {
     return UserModel(
         fullName: json['fullName'],
         email: json['email'],
@@ -42,7 +47,9 @@ class UserModel {
         userId: json['userId'],
         homeAddress: json['homeAddress'],
         userRole:json['userRole'],
-        regDate:json['regDate'],
-         imageUrl:json['imageUrl']);   
+        regDate:json['regDate'].toDate(),
+        imageUrl:json['imageUrl'],
+        status: json['status'],
+        location:json['location'] !=null? LocationModel.fromJson(json['location']): null);  
   }
 }

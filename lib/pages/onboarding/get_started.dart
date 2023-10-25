@@ -2,7 +2,6 @@ import 'package:easylygo_app/common/button_blue.dart';
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/constants/routes.dart';
-import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/strings/extracted.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

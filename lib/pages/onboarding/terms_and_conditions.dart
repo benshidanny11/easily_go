@@ -1,11 +1,13 @@
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/constants/routes.dart';
+import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/services/user_service.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TermsAndConditions extends ConsumerStatefulWidget {
   const TermsAndConditions({super.key});
@@ -101,7 +103,16 @@ class _TermsAndConditionsState extends ConsumerState<TermsAndConditions> {
                                    AlertUtil.showLoadingAlertDialig(context, "Registering user", false);
                                     UserModel userModel=ref.read(userProvider);
                                     await UserService.registerUser(userModel);
-                                    Navigator.pushReplacementNamed(context, HOME_ROUTE);
+                                    final prefs = await SharedPreferences.getInstance();
+                                    prefs.setString(PREF_EMAIL, userModel.email!);
+                                    prefs.setString(PREF_USERID, userModel.userId!);
+                                    prefs.setString(PREF_USR_ROLE, userModel.userRole);
+                                    if(userModel.userRole==CUSTOMER_ROLE){
+                                       Navigator.pushReplacementNamed(context, CUSTOMER_ROUTE);
+                                    }else{
+                                       Navigator.pushReplacementNamed(context, HOME_ROUTE);
+                                    }
+                                   
                                   }
                                 : null,
                             child: Image.asset(_isAgreeChecked

@@ -61,6 +61,12 @@
 		</array>
 	</dict>
 </array>
-<!-- End of the Google Sign-in Section -->
+<string>NSLocationWhenInUseUsageDescription</string>
+<key>Want to access your location</key>
+<string>NSLocationAlwaysAndWhenInUseUsageDescription</string>
+<key>Want to access your location</key>
+<string>location</string>
+<key>UIBackgroundModes</key>
 </dict>
+
 </plist>

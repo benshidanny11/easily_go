@@ -1,6 +1,8 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/constants/routes.dart';
-import 'package:easylygo_app/pages/home.dart';
+import 'package:easylygo_app/pages/customers/customer_home.dart';
+import 'package:easylygo_app/pages/drivers/create_jorney.dart';
+import 'package:easylygo_app/pages/drivers/home_layoout.dart';
 import 'package:easylygo_app/pages/onboarding/get_started.dart';
 import 'package:easylygo_app/pages/onboarding/signup.dart';
 import 'package:easylygo_app/pages/onboarding/splash_screen.dart';
@@ -20,20 +22,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainColor),
         useMaterial3: true,
         fontFamily: 'Poppins-Regular.ttf'
       ),
+      debugShowCheckedModeBanner: false,
       initialRoute: SPLASH_SCREEN,
       routes: {
-        HOME_ROUTE:(context) => const HomePage(),
+        HOME_ROUTE:(context) =>  HomePage(),
         SPLASH_SCREEN:(context) => const SplashScreen(),
         GET_STARTED:(context) =>const GettingStarted(),
         SIGN_UP:(context) => const Signup(),
         USER_REGISTER:(context) =>const UserRegister(),
         TERMS_AND_CONDITION:(context) => const TermsAndConditions(),
+        CUSTOMER_ROUTE:(context) => CustomerHomePage(),
+        CREATE_JORNEY:(context) => CreateJourney(),
       },
     );
   }
