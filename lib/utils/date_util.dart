@@ -17,6 +17,11 @@ class DateUtil {
     return formatter.format(date);
   }
 
+   static String getDateTimeString(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd h:mm a');
+    return formatter.format(date);
+  }
+
   static String getTimeString(DateTime date) {
     return DateFormat.jm().format(date);
   }

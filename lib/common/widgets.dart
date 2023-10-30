@@ -1,5 +1,8 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
+import 'package:easylygo_app/constants/routes.dart';
+import 'package:easylygo_app/models/UserModel.dart';
+import 'package:easylygo_app/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -41,7 +44,7 @@ class CommonWidgets {
   }
 
   static Drawer appDrawer(Function(bool value) onChanged, BuildContext context,
-      String onLineStatus, bool isOnline) {
+      String onLineStatus, bool isOnline, UserModel userModel) {
     return Drawer(
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
@@ -69,7 +72,7 @@ class CommonWidgets {
                           fit: BoxFit.cover,
                         )),
                         Text(
-                          'John Doe',
+                          userModel.fullName.toString(),
                           style: textStyleTitle(13),
                         )
                       ],
@@ -84,7 +87,7 @@ class CommonWidgets {
                               Color.fromARGB(255, 2, 170, 7).withOpacity(0.4),
                           inactiveThumbColor: Color.fromARGB(255, 201, 111, 42)
                               .withOpacity(0.4),
-                          value: isOnline,
+                          value: userModel.status=='active'? true:false,
                           onChanged: onChanged,
                         )
                       ],
@@ -138,8 +141,9 @@ class CommonWidgets {
               size: 25,
             ),
             title: const Text('Logout'),
-            onTap: () {
-              Navigator.pop(context);
+            onTap: () async{
+             await UserService.signOut();
+              Navigator.pushReplacementNamed(context, GET_STARTED);
             },
           ),
         ],

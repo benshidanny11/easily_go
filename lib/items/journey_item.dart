@@ -1,6 +1,7 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/models/Journey.dart';
+import 'package:easylygo_app/utils/date_util.dart';
 import 'package:flutter/material.dart';
 
 class JourneyItem extends StatelessWidget {
@@ -39,7 +40,7 @@ class JourneyItem extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    'Start at ${journey.startTime}',
+                    'Starts at ${DateUtil.getDateTimeString(journey.startTime)} (${journey.joinedPassengers.length} joined)',
                     style: textStyleTitle(13),
                   )
                 ],

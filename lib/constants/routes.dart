@@ -6,3 +6,4 @@ const String SIGN_UP='/signup';
 const String USER_REGISTER='/userregister';
 const String TERMS_AND_CONDITION='/terms_and_condition';
 const String CREATE_JORNEY='/create_journey';
+const String CUSTOMER_TRIP_REQUEST='/customer_trip_request';

@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:easylygo_app/models/Journey.dart';
+import 'package:easylygo_app/models/TripRequest.dart';
 import 'package:easylygo_app/utils/firestore_util.dart';
 
-class JorneyService {
+class JourneyService {
   static Future<void> createJorney(Journey journey) async {
     await FirebaseUtil.collectionReferene("journeys")
         .add(journey.toJson(journey));
@@ -26,5 +27,10 @@ class JorneyService {
       });
     });
     return controller.stream;
+  }
+
+   static Future<void> createTripRequest(TripRequest tripRequest) async {
+    await FirebaseUtil.collectionReferene("tripRequests")
+        .add(tripRequest.toJson(tripRequest));
   }
 }

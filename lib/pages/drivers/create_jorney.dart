@@ -7,8 +7,7 @@ import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
-import 'package:easylygo_app/services/jorney_service.dart';
-import 'package:easylygo_app/services/user_service.dart';
+import 'package:easylygo_app/services/journey_service.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:easylygo_app/utils/date_util.dart';
 import 'package:flutter/material.dart';
@@ -224,7 +223,7 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
                         jorneyType: jorneyType,
                         ownerId: ownerDetails.userId.toString());
 
-                    await  JorneyService.createJorney(journey);
+                    await  JourneyService.createJorney(journey);
                     Navigator.pushReplacementNamed(context, HOME_ROUTE);
                   },
                   label: "Create jorney",

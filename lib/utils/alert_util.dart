@@ -1,10 +1,15 @@
+
 import 'package:flutter/material.dart';
+
 
 class AlertUtil{
 
  static void showLoadingAlertDialig(BuildContext context,String title,bool dismisDialog){
   
-      AlertDialog alert = AlertDialog(  
+      AlertDialog alert = AlertDialog(
+        shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5), // Adjust the value as needed
+                  ),  
     title: Text(title),  
     content: const Row(
       children: [
@@ -25,4 +30,7 @@ class AlertUtil{
   ); 
  }
 
+
+
 }
+

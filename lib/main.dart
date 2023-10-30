@@ -1,6 +1,7 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/pages/customers/customer_home.dart';
+import 'package:easylygo_app/pages/customers/customer_trip_request.dart';
 import 'package:easylygo_app/pages/drivers/create_jorney.dart';
 import 'package:easylygo_app/pages/drivers/home_layoout.dart';
 import 'package:easylygo_app/pages/onboarding/get_started.dart';
@@ -17,7 +18,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-//background: rgba(27, 117, 188, 1);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,9 @@ class MyApp extends StatelessWidget {
         SIGN_UP:(context) => const Signup(),
         USER_REGISTER:(context) =>const UserRegister(),
         TERMS_AND_CONDITION:(context) => const TermsAndConditions(),
-        CUSTOMER_ROUTE:(context) => CustomerHomePage(),
-        CREATE_JORNEY:(context) => CreateJourney(),
+        CUSTOMER_ROUTE:(context) =>const CustomerHomePage(),
+        CREATE_JORNEY:(context) =>const CreateJourney(),
+        CUSTOMER_TRIP_REQUEST:(context) => CustomerTripRequest(),
       },
     );
   }

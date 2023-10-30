@@ -5,7 +5,7 @@ import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/items/journey_item.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
-import 'package:easylygo_app/services/jorney_service.dart';
+import 'package:easylygo_app/services/journey_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -62,19 +62,20 @@ class _HomeActivitiesState extends ConsumerState<HomeActivities> {
             height: 10,
           ),
           StreamBuilder(
-            stream: JorneyService.getMyJourneys(userId),
-            builder: (context, snapshot) {
+            stream: JourneyService.getMyJourneys(userId),
+            builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               }
               if(snapshot.hasError){
                   print("**********&&&&&&Error in get journeys --======${snapshot.error} ");
               }
+ 
+                 
               if (snapshot.hasData) {
+               
                 List<Journey> journeItems = snapshot.data as List<Journey>;
-                // setState(() {
-                //   _journeysCount=journeItems.length;
-                // });
+                    _journeysCount=journeItems.length;
                 return SizedBox(
                   height: screenHeight * .5,
                   child: ListView.builder(

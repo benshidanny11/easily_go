@@ -22,7 +22,7 @@ class UserModel {
         this.userRole=CUSTOMER_ROLE,
         this.regDate,
         this.imageUrl,
-        this.status,
+        this.status='active',
         this.location});
   Map<String, dynamic> toJson() {
     return {
@@ -49,7 +49,7 @@ class UserModel {
         userRole:json['userRole'],
         regDate:json['regDate'].toDate(),
         imageUrl:json['imageUrl'],
-        status: json['status'],
+        status: json['status'] ?? 'offline',
         location:json['location'] !=null? LocationModel.fromJson(json['location']): null);  
   }
 }

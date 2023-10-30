@@ -6,14 +6,20 @@ class TripRequest {
   UserModel customerDetails;
   DateTime createdAt;
   String status;
-  LocationModel requestOrigin;
+  String requestOrigin;
+  String driverId;
+  String requestMessage;
+  String customerId;
 
   TripRequest(
       {required this.requestId,
       required this.customerDetails,
       required this.status,
       required this.requestOrigin,
-      required this.createdAt});
+      required this.createdAt,
+      required this.driverId,
+      required this.requestMessage,
+      required this.customerId});
 
   
   Map<String, dynamic> toJson(TripRequest tr){
@@ -23,6 +29,9 @@ class TripRequest {
       "status": status,
       "requestOrigin": requestOrigin,
       "createdAt": createdAt,
+      "driverId":driverId,
+      "requestMessage": requestMessage,
+      "customerId":customerId
     };
   }
 
@@ -33,6 +42,9 @@ class TripRequest {
       status: json["status"],
       requestOrigin: json["requestOrigin"],
       createdAt: json["createdAt"],
+      driverId: json["driverId"],
+      requestMessage: json["requestMessage"],
+      customerId: json["customerId"]
     );
   }
 }

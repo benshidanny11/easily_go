@@ -1,12 +1,12 @@
 import 'package:location/location.dart';
 
 class LocationUtil {
-  static Future<LocationData?> getCurrentLocationData(Location location) async {
-   
+  static Future<LocationData?> getCurrentLocationData() async {
+   Location location=Location();
 
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -23,8 +23,13 @@ class LocationUtil {
         return null;
       }
     }
+    LocationData? _locationData=await location.getLocation();
 
-    _locationData = await location.getLocation();
+  //  location.onLocationChanged.listen((LocationData lData) {
+  //    if(lData.latitude!=null && lData.longitude!=null){
+  //     _locationData=lData;
+  //    }
+  //  },);
     return _locationData;
   }
 }
