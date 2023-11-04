@@ -2,6 +2,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
         android:label="easylygo_app"
         android:name="${applicationName}"
@@ -35,4 +36,18 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyAtEWPHFSTSuRFSGLqmY_MO_ah-ntyeIko"/>
     </application>
+    <!-- Provide required visibility configuration for API level 30 and above -->
+<queries>
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="sms" />
+  </intent>
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="tel" />
+  </intent>
+  <intent>
+    <action android:name="android.support.customtabs.action.CustomTabsService" />
+  </intent>
+</queries>
 </manifest>

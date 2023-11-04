@@ -87,7 +87,7 @@ class CommonWidgets {
                               Color.fromARGB(255, 2, 170, 7).withOpacity(0.4),
                           inactiveThumbColor: Color.fromARGB(255, 201, 111, 42)
                               .withOpacity(0.4),
-                          value: userModel.status=='active'? true:false,
+                          value: userModel.status == 'active' ? true : false,
                           onChanged: onChanged,
                         )
                       ],
@@ -141,8 +141,8 @@ class CommonWidgets {
               size: 25,
             ),
             title: const Text('Logout'),
-            onTap: () async{
-             await UserService.signOut();
+            onTap: () async {
+              await UserService.signOut();
               Navigator.pushReplacementNamed(context, GET_STARTED);
             },
           ),
@@ -154,7 +154,7 @@ class CommonWidgets {
   static Divider customDivider() {
     return const Divider(
       height: 0.5,
-      color: Color.fromARGB(255, 242, 242, 242),
+      color: Color.fromARGB(255, 220, 220, 220),
     );
   }
 
@@ -164,6 +164,17 @@ class CommonWidgets {
       width: 2,
       child: Container(
         color: Color.fromARGB(255, 229, 229, 229),
+      ),
+    );
+  }
+
+  static Container tag(Color color, String label) {
+    return Container(
+      decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(13)),color: color,),
+      padding: const EdgeInsets.only(left: 5,right: 5, top: 0,bottom: 3),
+      child: Text(
+        label,
+        style: const TextStyle(color: Colors.white,fontSize: 10),
       ),
     );
   }

@@ -7,3 +7,5 @@ const String USER_REGISTER='/userregister';
 const String TERMS_AND_CONDITION='/terms_and_condition';
 const String CREATE_JORNEY='/create_journey';
 const String CUSTOMER_TRIP_REQUEST='/customer_trip_request';
+const String VIEW_DRIVER_JOURNEY_DETAILS='/driver_journey_details';
+const String VIEW_TRIP_REQUEST_DETAILS='/trip_request_details';

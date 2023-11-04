@@ -4,6 +4,8 @@ import 'package:easylygo_app/pages/customers/customer_home.dart';
 import 'package:easylygo_app/pages/customers/customer_trip_request.dart';
 import 'package:easylygo_app/pages/drivers/create_jorney.dart';
 import 'package:easylygo_app/pages/drivers/home_layoout.dart';
+import 'package:easylygo_app/pages/drivers/view_driver_journey.dart';
+import 'package:easylygo_app/pages/drivers/view_driver_trip_request.dart';
 import 'package:easylygo_app/pages/onboarding/get_started.dart';
 import 'package:easylygo_app/pages/onboarding/signup.dart';
 import 'package:easylygo_app/pages/onboarding/splash_screen.dart';
@@ -39,6 +41,8 @@ class MyApp extends StatelessWidget {
         CUSTOMER_ROUTE:(context) =>const CustomerHomePage(),
         CREATE_JORNEY:(context) =>const CreateJourney(),
         CUSTOMER_TRIP_REQUEST:(context) => CustomerTripRequest(),
+        VIEW_DRIVER_JOURNEY_DETAILS:(context) => ViewDriverJourney(),
+        VIEW_TRIP_REQUEST_DETAILS:(context) => ViewDriverTripRequest()
       },
     );
   }

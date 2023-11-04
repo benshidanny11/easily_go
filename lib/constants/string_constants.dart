@@ -8,3 +8,7 @@ const String REQUEST_STATUS_PENDING="pending";
 const String REQUEST_STATUS_APROVED="approved";
 const String REQUEST_STATUS_REJECTED="rejected";
 const String REQUEST_STATUS_EXPIRED="expired";
+
+const String JOURNEY_STATUS_PENDING="pending";
+const String JOURNEY_STATUS_CANCELED="canceled";
+const String JOURNEY_STATUS_FILLED="fulloff";

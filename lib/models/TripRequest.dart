@@ -1,4 +1,3 @@
-import 'package:easylygo_app/models/LocationModel.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 
 class TripRequest {
@@ -22,7 +21,7 @@ class TripRequest {
       required this.customerId});
 
   
-  Map<String, dynamic> toJson(TripRequest tr){
+  Map<String, dynamic> toJson(){
     return {
       "requestId": requestId,
       "customerDetails": customerDetails.toJson(),
@@ -35,13 +34,13 @@ class TripRequest {
     };
   }
 
-   TripRequest fromJosn(Map<String, dynamic> json){
+    factory TripRequest.fromJosn(Map<String, dynamic> json){
     return TripRequest(
       requestId: json["requestId"],
       customerDetails: UserModel.fromJson(json["customerDetails"]),
       status: json["status"],
       requestOrigin: json["requestOrigin"],
-      createdAt: json["createdAt"],
+      createdAt: json["createdAt"].toDate(),
       driverId: json["driverId"],
       requestMessage: json["requestMessage"],
       customerId: json["customerId"]

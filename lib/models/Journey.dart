@@ -28,7 +28,7 @@ class Journey {
       required this.jorneyType,
       required this.ownerId});
 
-  Map<String, dynamic> toJson(Journey jrn) {
+  Map<String, dynamic> toJson() {
     return {
       "jourenyId": jourenyId,
       "origin": origin,
