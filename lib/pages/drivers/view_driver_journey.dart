@@ -1,8 +1,10 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/common/widgets.dart';
+import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/Journey.dart';
+import 'package:easylygo_app/pages/drivers/view_joined_passengers.dart';
 import 'package:easylygo_app/services/journey_service.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:easylygo_app/utils/date_util.dart';
@@ -265,7 +267,13 @@ class _ViewDriverJourneyState extends State<ViewDriverJourney> {
                   CommonWidgets.customDivider(),
                   SizedBox(height: 20,),
                   CommonWidgets.buttonBlueRounded(onPressed: (){
-
+                     Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewJoinedPassengers(
+                              joinedPassengers: journey.joinedPassengers,
+                            )),
+                  );
                   },label: 'See joined passengers', )
                 ],
               ),

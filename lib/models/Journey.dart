@@ -1,3 +1,4 @@
+import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 
 class Journey {
@@ -13,6 +14,9 @@ class Journey {
   String jorneyStatus;
   String jorneyType;
   String ownerId;
+  int numberOfSits;
+  PlaceModel originDetails;
+  PlaceModel destinationDetails;
 
   Journey(
       {required this.jourenyId,
@@ -26,7 +30,10 @@ class Journey {
       required this.createdAt,
       required this.jorneyStatus,
       required this.jorneyType,
-      required this.ownerId});
+      required this.ownerId,
+      required this.numberOfSits,
+      required this.originDetails,
+      required this.destinationDetails});
 
   Map<String, dynamic> toJson() {
     return {
@@ -41,7 +48,10 @@ class Journey {
       "createdAt": createdAt,
       "jorneyStatus": jorneyStatus,
       "jorneyType": jorneyType,
-      "ownerId": ownerId
+      "ownerId": ownerId,
+      "numberOfSits":numberOfSits,
+      "originDetails":originDetails.toJson(),
+      "destinationDetails": destinationDetails.toJson()
     };
   }
 
@@ -55,12 +65,15 @@ class Journey {
       startTime: json["startTime"].toDate(),
       ownerDetails: UserModel.fromJson(json["ownerDetails"]),
       journeyPricePerKM: json["journeyPricePerKM"],
-      jorneyDistance: json["jorneyDistance"],
+      jorneyDistance: json["jorneyDistance"] * 0.0,
       joinedPassengers:  passengers,
       createdAt: json["createdAt"].toDate(),
       jorneyStatus: json["jorneyStatus"],
       jorneyType: json["jorneyType"],
-      ownerId: json["ownerId"]
+      ownerId: json["ownerId"],
+      numberOfSits:json["numberOfSits"],
+      originDetails:PlaceModel.fromJson(json["originDetails"]),
+      destinationDetails:PlaceModel.fromJson(json["destinationDetails"]),
     );
   }
 }

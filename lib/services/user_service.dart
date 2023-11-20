@@ -75,5 +75,4 @@ class UserService {
     return controller.stream;
   }
 
-  
 }

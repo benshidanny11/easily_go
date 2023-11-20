@@ -1,14 +1,20 @@
+import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:easylygo_app/models/UserModel.dart';
+import 'package:flutter/material.dart';
 
 class TripRequest {
   String requestId;
   UserModel customerDetails;
+  UserModel driverDetails;
   DateTime createdAt;
   String status;
   String requestOrigin;
+  String requestDestination;
   String driverId;
   String requestMessage;
   String customerId;
+  PlaceModel pickupDetails;
+  PlaceModel dropOfDetails;
 
   TripRequest(
       {required this.requestId,
@@ -18,7 +24,12 @@ class TripRequest {
       required this.createdAt,
       required this.driverId,
       required this.requestMessage,
-      required this.customerId});
+      required this.customerId,
+      required this.requestDestination,
+      required this.driverDetails,
+      required this.pickupDetails,
+      required this.dropOfDetails
+      });
 
   
   Map<String, dynamic> toJson(){
@@ -30,7 +41,11 @@ class TripRequest {
       "createdAt": createdAt,
       "driverId":driverId,
       "requestMessage": requestMessage,
-      "customerId":customerId
+      "customerId":customerId,
+      "requestDestination": requestDestination,
+      "driverDetails":driverDetails.toJson(),
+      "pickupDetails": pickupDetails.toJson(),
+      "dropOfDetails": dropOfDetails.toJson(),
     };
   }
 
@@ -43,7 +58,13 @@ class TripRequest {
       createdAt: json["createdAt"].toDate(),
       driverId: json["driverId"],
       requestMessage: json["requestMessage"],
-      customerId: json["customerId"]
-    );
+      customerId: json["customerId"],
+      requestDestination: json['requestDestination'],
+      driverDetails: UserModel.fromJson(json['driverDetails']),
+      pickupDetails: PlaceModel.fromJson(json['pickupDetails']),
+      dropOfDetails: PlaceModel.fromJson(json['dropOfDetails']),
+
+      );
+    
   }
 }

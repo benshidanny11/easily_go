@@ -19,4 +19,12 @@ class InputDecorations {
                    );
   }
 
+  static InputDecoration searchInputDecoration(String label){
+    return InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(left: 10),
+                              label: Text(label)
+                              );
+  }
+
 }

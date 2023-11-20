@@ -10,14 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ViewDriverTripRequest extends StatefulWidget {
-  const ViewDriverTripRequest({super.key});
+class ViewCustomerTripRequest extends StatelessWidget {
+  const ViewCustomerTripRequest({super.key});
 
-  @override
-  State<ViewDriverTripRequest> createState() => _ViewDriverTripRequestState();
-}
-
-class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
   @override
   Widget build(BuildContext context) {
     final TripRequest tripRequest =
@@ -76,40 +71,40 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
                           )
                         ],
                       ),
-                      tripRequest.status == REQUEST_STATUS_PENDING
-                          ? PopupMenuButton<String>(
-                              onSelected: (String result) async {
-                                AlertUtil.showLoadingAlertDialig(
-                                    context,
-                                    result == REQUEST_STATUS_APROVED
-                                        ? 'Approving request'
-                                        : 'Rejecting request',
-                                    false);
-                                if (result == REQUEST_STATUS_APROVED) {
-                                  await JourneyService.approveTrip(tripRequest);
-                                } else {
-                                  await JourneyService.rejectTrip(tripRequest);
-                                }
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text("Request has been $result!"),
-                                ));
-                              },
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<String>>[
-                                const PopupMenuItem<String>(
-                                  value: REQUEST_STATUS_APROVED,
-                                  child: Text('Approve'),
-                                ),
-                                const PopupMenuItem<String>(
-                                  value: REQUEST_STATUS_REJECTED,
-                                  child: Text('Reject'),
-                                ),
-                              ],
-                            )
-                          : Container()
+                      // tripRequest.status == REQUEST_STATUS_PENDING
+                      //     ? PopupMenuButton<String>(
+                      //         onSelected: (String result) async {
+                      //           AlertUtil.showLoadingAlertDialig(
+                      //               context,
+                      //               result == REQUEST_STATUS_APROVED
+                      //                   ? 'Approving request'
+                      //                   : 'Rejecting request',
+                      //               false);
+                      //           if (result == REQUEST_STATUS_APROVED) {
+                      //             await JourneyService.approveTrip(tripRequest);
+                      //           } else {
+                      //             await JourneyService.rejectTrip(tripRequest);
+                      //           }
+                      //           Navigator.pop(context);
+                      //           Navigator.pop(context);
+                      //           ScaffoldMessenger.of(context)
+                      //               .showSnackBar(SnackBar(
+                      //             content: Text("Request has been $result!"),
+                      //           ));
+                      //         },
+                      //         itemBuilder: (BuildContext context) =>
+                      //             <PopupMenuEntry<String>>[
+                      //           const PopupMenuItem<String>(
+                      //             value: REQUEST_STATUS_APROVED,
+                      //             child: Text('Approve'),
+                      //           ),
+                      //           const PopupMenuItem<String>(
+                      //             value: REQUEST_STATUS_REJECTED,
+                      //             child: Text('Reject'),
+                      //           ),
+                      //         ],
+                      //       )
+                      //     : Container()
                     ],
                   ),
                   const SizedBox(
@@ -128,7 +123,7 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(tripRequest.customerDetails.fullName.toString())
+                      Text(tripRequest.driverDetails.fullName.toString())
                     ],
                   ),
                   const SizedBox(
@@ -146,11 +141,11 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Customer phone number'),
+                          const Text('Driver phone number'),
                           const SizedBox(
                             height: 5,
                           ),
-                          Text(tripRequest.customerDetails.phoneNumber
+                          Text(tripRequest.driverDetails.phoneNumber
                               .toString()),
                         ],
                       )
@@ -235,7 +230,7 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
                   Row(
                     children: [
                       const Icon(
-                        Icons.message,
+                        Icons.update,
                         color: AppColors.mainColor,
                       ),
                       const SizedBox(
@@ -244,11 +239,11 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Customer message'),
+                          const Text('Status'),
                           const SizedBox(
                             height: 5,
                           ),
-                          Text(tripRequest.requestMessage.toString()),
+                          Text(tripRequest.status.toString()),
                         ],
                       )
                     ],
@@ -264,14 +259,14 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
                     onPressed: () async {
                       var url = Uri(
                           scheme: 'tel',
-                          path: tripRequest.customerDetails.phoneNumber);
+                          path: tripRequest.driverDetails.phoneNumber);
                       if (await canLaunchUrl(url)) {
                         await launchUrl(url, webViewConfiguration: WebViewConfiguration());
                       } else {
                         throw 'Could not launch $url';
                       }
                     },
-                    label: 'Call customer',
+                    label: 'Call driver',
                   )
                 ],
               ),

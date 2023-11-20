@@ -170,12 +170,33 @@ class CommonWidgets {
 
   static Container tag(Color color, String label) {
     return Container(
-      decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(13)),color: color,),
-      padding: const EdgeInsets.only(left: 5,right: 5, top: 0,bottom: 3),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(13)),
+        color: color,
+      ),
+      padding: const EdgeInsets.only(left: 5, right: 5, top: 0, bottom: 3),
       child: Text(
         label,
-        style: const TextStyle(color: Colors.white,fontSize: 10),
+        style: const TextStyle(color: Colors.white, fontSize: 10),
       ),
+    );
+  }
+
+  static Widget journeySeachingState({required Function onTap}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Filtered journeys",
+          style: textStyleContentSmall(14),
+          textAlign: TextAlign.start,
+        ),
+        GestureDetector(
+            onTap: () {
+              onTap();
+            },
+            child: const Icon(Icons.cancel, color: AppColors.colorError))
+      ],
     );
   }
 }

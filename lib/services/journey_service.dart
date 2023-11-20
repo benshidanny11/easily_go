@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/models/TripRequest.dart';
+import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/utils/firestore_util.dart';
 
 class JourneyService {
   static Future<void> createJorney(Journey journey) async {
-    await FirebaseUtil.collectionReferene("journeys")
-        .add(journey.toJson());
+    await FirebaseUtil.collectionReferene("journeys").add(journey.toJson());
   }
 
   static Stream<List<Journey>> getMyJourneys(String userid) {
@@ -81,23 +81,119 @@ class JourneyService {
       await FirebaseUtil.collectionReferene('tripRequests')
           .doc(snapshot.docs[0].id)
           .update(tripRequest.toJson());
-          return true;
+      return true;
     }
     return false;
   }
 
-    static Future<bool> cancelJourney(Journey journey) async {
+  static Future<bool> cancelJourney(Journey journey) async {
     //
-    QuerySnapshot snapshot =
-        await FirebaseUtil.collectionReferene('journeys')
-            .where('ownerId', isEqualTo: journey.ownerId)
-            .get();
+    QuerySnapshot snapshot = await FirebaseUtil.collectionReferene('journeys')
+        .where('ownerId', isEqualTo: journey.ownerId)
+        .get();
     journey.jorneyStatus = JOURNEY_STATUS_CANCELED;
     if (snapshot.docs.isNotEmpty) {
       await FirebaseUtil.collectionReferene('journeys')
           .doc(snapshot.docs[0].id)
           .update(journey.toJson());
-          return true;
+      return true;
+    }
+    return false;
+  }
+
+  static Stream<List<TripRequest>> geCustomerTripRequests(String customerId) {
+    StreamController<List<TripRequest>> controller =
+        StreamController<List<TripRequest>>();
+    FirebaseUtil.initializeFirebase().then((value) {
+      FirebaseUtil.collectionReferene("tripRequests")
+          .where("customerId", isEqualTo: customerId)
+          .snapshots()
+          .listen((querySnapshot) {
+        List<TripRequest> requests = querySnapshot.docs
+            .map((doc) =>
+                TripRequest.fromJosn(doc.data() as Map<String, dynamic>))
+            .toList();
+        controller.add(requests);
+      }, onError: (error) {
+        controller.addError(error);
+      });
+    });
+    return controller.stream;
+  }
+
+  static Stream<List<Journey>> getAvailableJourneys({String? searchQuery}) {
+    StreamController<List<Journey>> controller =
+        StreamController<List<Journey>>();
+
+    FirebaseUtil.initializeFirebase().then((value) {
+      final journeysCollection = FirebaseUtil.collectionReferene("journeys");
+        journeysCollection
+            .where(Filter.and(
+                Filter("jorneyStatus", isEqualTo: JOURNEY_STATUS_PENDING),
+                Filter("numberOfSits", isGreaterThan: 0)))
+            .snapshots()
+            .listen((querySnapshot) {
+          List<Journey> journeys = querySnapshot.docs
+              .map((doc) => Journey.fromJson(doc.data()))
+              .toList();
+          controller.add(journeys);
+        }, onError: (error) {
+          controller.addError(error);
+        });
+      
+      
+      // else {
+       
+      //   journeysCollection
+      //       .where(Filter.and(Filter.and(
+      //           Filter("jorneyStatus", isEqualTo: JOURNEY_STATUS_PENDING),
+      //           Filter("numberOfSits", isGreaterThan: 0),
+      //        ),    Filter.or(
+      //               Filter.and(
+      //                   Filter("origin", isGreaterThanOrEqualTo: searchQuery),
+      //                   Filter("origin",
+      //                       isLessThanOrEqualTo: '$searchQuery\uf8ff')),
+      //                Filter.and(
+      //                   Filter("destination", isGreaterThanOrEqualTo: searchQuery),
+      //                   Filter("destination",
+      //                       isLessThanOrEqualTo: '$searchQuery\uf8ff')))))
+      //       .snapshots()
+      //       .listen((querySnapshot) {
+      //     List<Journey> journeys = querySnapshot.docs
+      //         .map((doc) => Journey.fromJson(doc.data()))
+      //         .toList();
+      //     controller.add(journeys);
+      //   }, onError: (error) {
+      //     controller.addError(error);
+      //   });
+      // }
+    });
+    return controller.stream;
+  }
+
+  static Future<bool> customerJoinJourney(
+      Journey journey, UserModel customer) async {
+    //
+    QuerySnapshot snapshot = await FirebaseUtil.collectionReferene('journeys')
+        .where('jourenyId', isEqualTo: journey.jourenyId)
+        .get();
+    journey.joinedPassengers.add(customer);
+    journey.numberOfSits = journey.numberOfSits - 1;
+    if (snapshot.docs.isNotEmpty) {
+      await FirebaseUtil.collectionReferene('journeys')
+          .doc(snapshot.docs[0].id)
+          .update(journey.toJson());
+      return true;
+    }
+    return false;
+  }
+
+  static bool checkCustomerJoinedJourney(
+      List<UserModel> joinedCustomers, String customerId) {
+    for (var customer in joinedCustomers) {
+      if (customer.userId == customerId) {
+        return true;
+      }
     }
     return false;
   }
