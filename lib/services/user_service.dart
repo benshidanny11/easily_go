@@ -4,8 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easylygo_app/models/LocationModel.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/utils/firestore_util.dart';
+import 'package:easylygo_app/utils/image_util.dart';
 import 'package:easylygo_app/utils/location_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,4 +79,36 @@ class UserService {
     return controller.stream;
   }
 
+static Future<String> updateUserProfileImage(UserModel userModel) async{
+ 
+if(userModel.imageUrl!=null && userModel.imageUrl!.isNotEmpty){
+ await FirebaseStorage.instance.refFromURL(userModel.imageUrl.toString()).delete();
+}
+ XFile? image=await ImageUtil.pickGalleryImage();
+String imageUrl = await ImageUtil.uploadImage("userimages", image!);
+userModel.imageUrl=imageUrl;
+
+    QuerySnapshot snapshot = await FirebaseUtil.collectionReferene('users')
+        .where('userId', isEqualTo: userModel.userId)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      await FirebaseUtil.collectionReferene('users')
+          .doc(snapshot.docs[0].id)
+          .update(userModel.toJson());
+    }
+    return imageUrl;
+}
+
+static Future<void> updateUserProfileInfo(UserModel userModel) async{
+
+  print("User home addreess<<<<<>>>>>>>>>: ${userModel.homeAddress}");
+    QuerySnapshot snapshot = await FirebaseUtil.collectionReferene('users')
+        .where('userId', isEqualTo: userModel.userId)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      await FirebaseUtil.collectionReferene('users')
+          .doc(snapshot.docs[0].id)
+          .update(userModel.toJson());
+    }
+}
 }

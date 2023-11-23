@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 const String HOME_ROUTE="/";
 const String CUSTOMER_ROUTE="/customer_home";
 const String SPLASH_SCREEN='/spolash_screen';
@@ -15,3 +17,5 @@ const String CUSTOMER_TRIP_REQUEST_DETAILS='/customer_trip_request_details';
 const String SEARCH_PLACES='/search_places';
 const String CUSTOMER_CREATE_TRIP_REQUEST='/customer_create_trip_request';
 const String VIEW_JOINED_PASSENGERS='/view_joined_passengers';
+const String USER_PROFILE='/user_profile';
+const String EDIT_USER_PROFILE='/edit_edit_profile';

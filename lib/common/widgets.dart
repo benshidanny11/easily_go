@@ -64,13 +64,17 @@ class CommonWidgets {
                   children: [
                     Column(
                       children: [
-                        ClipOval(
-                            child: Image.asset(
-                          'assets/images/user_avatar.png',
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        )),
+                       (userModel.imageUrl != null && userModel.imageUrl != '')
+                              ? CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      NetworkImage(userModel.imageUrl.toString()),
+                                )
+                              : const CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: AssetImage(
+                                      'assets/images/user_avatar.png'),
+                                ),
                         Text(
                           userModel.fullName.toString(),
                           style: textStyleTitle(13),
@@ -130,7 +134,7 @@ class CommonWidgets {
             ),
             title: const Text('Profile'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, USER_PROFILE);
             },
           ),
           ListTile(

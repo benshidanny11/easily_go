@@ -15,6 +15,8 @@ import 'package:easylygo_app/pages/onboarding/signup.dart';
 import 'package:easylygo_app/pages/onboarding/splash_screen.dart';
 import 'package:easylygo_app/pages/onboarding/terms_and_conditions.dart';
 import 'package:easylygo_app/pages/onboarding/user_register.dart';
+import 'package:easylygo_app/pages/user/edit_user_profile.dart';
+import 'package:easylygo_app/pages/user/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -52,7 +54,7 @@ class MyApp extends StatelessWidget {
         CUSTOMER_POSTED_JOURNEY_DETAILS:(context) => ViewCustomerPostedJourney(),
         CUSTOMER_TRIP_REQUEST_DETAILS:(context) => ViewCustomerTripRequest(),
         SEARCH_PLACES:(context) => SearchPlases(),
-       // VIEW_JOINED_PASSENGERS:(context) => ViewJoinedPassengers()
+        USER_PROFILE:(context) => UserProfile (),
       },
     );
   }

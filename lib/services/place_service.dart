@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:easylygo_app/models/LocationModel.dart';
 import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
