@@ -33,6 +33,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             UserService.getCurrentUser(prefs.getString(PREF_EMAIL) as String)
                 .then((user) {
               UserUtil.getUserProvier(user as UserModel, ref);
+              Navigator.pushReplacementNamed(context, HOME_ROUTE);
             });
           } else if (prefs.getString(PREF_USR_ROLE) == MOTOR_RIDER_ROLE) {
             UserService.getCurrentUser(prefs.getString(PREF_EMAIL) as String)

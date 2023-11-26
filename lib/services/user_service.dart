@@ -15,7 +15,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
   static Future<void> registerUser(UserModel userModel) async {
-    await FirebaseUtil.collectionReferene("users").add(userModel.toJson());
+   DocumentReference docRef= await FirebaseUtil.collectionReferene("users").add(userModel.toJson());
+   String docId=docRef.id;
+  await docRef.update({'docId':docId});
   }
 
   static Future<UserModel?> getCurrentUser(String email) async {

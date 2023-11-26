@@ -12,6 +12,8 @@ class UserModel {
   String? imageUrl;
   String? status;
   LocationModel? location;
+  String? deviceToken;
+  String? docId;
 
   UserModel(
       { this.fullName,
@@ -23,7 +25,9 @@ class UserModel {
         this.regDate,
         this.imageUrl,
         this.status='active',
-        this.location});
+        this.location,
+        this.deviceToken, 
+        this.docId});
   Map<String, dynamic> toJson() {
     return {
       "fullName": fullName,
@@ -35,7 +39,9 @@ class UserModel {
       "regDate":regDate,
       "imageUrl":imageUrl,
        "status":status,
-       "location":location!=null ? location!.toJson(): null
+       "location":location!=null ? location!.toJson(): null,
+       "deviceToken":deviceToken,
+       "docId":docId
     };
   }
 
@@ -50,6 +56,9 @@ class UserModel {
         regDate:json['regDate'].toDate(),
         imageUrl:json['imageUrl'],
         status: json['status'] ?? 'offline',
-        location:json['location'] !=null? LocationModel.fromJson(json['location']): null);  
+        location:json['location'] !=null? LocationModel.fromJson(json['location']): null,
+        deviceToken:json['deviceToken'],
+        docId:json ['docId']); 
+
   }
 }

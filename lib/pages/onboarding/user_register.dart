@@ -5,10 +5,13 @@ import 'package:easylygo_app/common/input_decorations.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/constants/string_constants.dart';
+import 'package:easylygo_app/models/LocationModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/strings/extracted.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:easylygo_app/utils/image_util.dart';
+import 'package:easylygo_app/utils/location_util.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -124,31 +127,40 @@ class _UserRegisterState extends ConsumerState<UserRegister> {
                           controller: homeAddressControll,
                         ),
                       ),
-                     USER_MODE=='DRIVER_MOTOR_RIDER_MODE'? Container(
-                        width: sreenWidth * .9,
-                        margin: const EdgeInsets.only(top: 10),
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecorations.getInputTextDecoration("Profession", Icons.cases, false),
-                          value: userRole,
-                          items: <String>['Driver', 'Motor rider']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: textStyleContentSmall(12),
+                      USER_MODE == 'DRIVER_MOTOR_RIDER_MODE'
+                          ? Container(
+                              width: sreenWidth * .9,
+                              margin: const EdgeInsets.only(top: 10),
+                              child: DropdownButtonFormField<String>(
+                                decoration:
+                                    InputDecorations.getInputTextDecoration(
+                                        "Profession", Icons.cases, false),
+                                value: userRole,
+                                items: <String>[
+                                  'Driver',
+                                  'Motor rider'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: textStyleContentSmall(12),
+                                    ),
+                                  );
+                                }).toList(),
+                                // Step 5.
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    userRole = newValue!;
+                                    ref.read(userProvider).userRole =
+                                        newValue == 'Driver'
+                                            ? DRIVER_ROLE
+                                            : MOTOR_RIDER_ROLE;
+                                  });
+                                },
                               ),
-                            );
-                          }).toList(),
-                          // Step 5.
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              userRole = newValue!;
-                              ref.read(userProvider).userRole = newValue=='Driver'? DRIVER_ROLE:MOTOR_RIDER_ROLE;
-                            });
-                          },
-                        ),
-                      ): Container()
+                            )
+                          : Container()
                     ],
                   ),
                   const SizedBox(
@@ -170,6 +182,10 @@ class _UserRegisterState extends ConsumerState<UserRegister> {
                             if (!validateNames &&
                                 !validateHomeAddress &&
                                 !validatePhoneNumber) {
+                              final fmInstance = FirebaseMessaging.instance;
+                              fmInstance.requestPermission(announcement: true);
+
+                              final token = await fmInstance.getToken();
                               String imageUrl = "";
                               if (image != null) {
                                 AlertUtil.showLoadingAlertDialig(
@@ -177,6 +193,11 @@ class _UserRegisterState extends ConsumerState<UserRegister> {
                                 imageUrl = await ImageUtil.uploadImage(
                                     "userimages", image!);
                               }
+                              final locationData =
+                                  await LocationUtil.getCurrentLocationData();
+                              final locationModel = LocationModel(
+                                  latitude: locationData!.latitude,
+                                  longitude: locationData.longitude);
                               ref.read(userProvider).phoneNumber =
                                   phoneNumberControll.text;
                               ref.read(userProvider).fullName =
@@ -185,7 +206,9 @@ class _UserRegisterState extends ConsumerState<UserRegister> {
                                   homeAddressControll.text;
                               ref.read(userProvider).regDate = DateTime.now();
                               ref.read(userProvider).imageUrl = imageUrl;
-                              
+                              ref.read(userProvider).deviceToken = token;
+                              ref.read(userProvider).location=locationModel;
+
                               Navigator.pushNamed(context, TERMS_AND_CONDITION);
                             }
                           } catch (error) {

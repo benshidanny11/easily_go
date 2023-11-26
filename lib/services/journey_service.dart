@@ -5,6 +5,7 @@ import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/models/TripRequest.dart';
 import 'package:easylygo_app/models/UserModel.dart';
+import 'package:easylygo_app/services/notification_servcice.dart';
 import 'package:easylygo_app/utils/firestore_util.dart';
 
 class JourneyService {
@@ -34,6 +35,11 @@ class JourneyService {
   static Future<void> createTripRequest(TripRequest tripRequest) async {
     await FirebaseUtil.collectionReferene("tripRequests")
         .add(tripRequest.toJson());
+    await NotificationService.createNotification(
+        tripRequest.driverDetails.docId.toString(),
+        tripRequest,
+        'Trip request',
+        'Yo got a trip request from ${tripRequest.customerDetails.fullName}');
   }
 
   static Stream<List<TripRequest>> getDriverTripRequest(String driverId) {
@@ -127,46 +133,19 @@ class JourneyService {
 
     FirebaseUtil.initializeFirebase().then((value) {
       final journeysCollection = FirebaseUtil.collectionReferene("journeys");
-        journeysCollection
-            .where(Filter.and(
-                Filter("jorneyStatus", isEqualTo: JOURNEY_STATUS_PENDING),
-                Filter("numberOfSits", isGreaterThan: 0)))
-            .snapshots()
-            .listen((querySnapshot) {
-          List<Journey> journeys = querySnapshot.docs
-              .map((doc) => Journey.fromJson(doc.data()))
-              .toList();
-          controller.add(journeys);
-        }, onError: (error) {
-          controller.addError(error);
-        });
-      
-      
-      // else {
-       
-      //   journeysCollection
-      //       .where(Filter.and(Filter.and(
-      //           Filter("jorneyStatus", isEqualTo: JOURNEY_STATUS_PENDING),
-      //           Filter("numberOfSits", isGreaterThan: 0),
-      //        ),    Filter.or(
-      //               Filter.and(
-      //                   Filter("origin", isGreaterThanOrEqualTo: searchQuery),
-      //                   Filter("origin",
-      //                       isLessThanOrEqualTo: '$searchQuery\uf8ff')),
-      //                Filter.and(
-      //                   Filter("destination", isGreaterThanOrEqualTo: searchQuery),
-      //                   Filter("destination",
-      //                       isLessThanOrEqualTo: '$searchQuery\uf8ff')))))
-      //       .snapshots()
-      //       .listen((querySnapshot) {
-      //     List<Journey> journeys = querySnapshot.docs
-      //         .map((doc) => Journey.fromJson(doc.data()))
-      //         .toList();
-      //     controller.add(journeys);
-      //   }, onError: (error) {
-      //     controller.addError(error);
-      //   });
-      // }
+      journeysCollection
+          .where(Filter.and(
+              Filter("jorneyStatus", isEqualTo: JOURNEY_STATUS_PENDING),
+              Filter("numberOfSits", isGreaterThan: 0)))
+          .snapshots()
+          .listen((querySnapshot) {
+        List<Journey> journeys = querySnapshot.docs
+            .map((doc) => Journey.fromJson(doc.data()))
+            .toList();
+        controller.add(journeys);
+      }, onError: (error) {
+        controller.addError(error);
+      });
     });
     return controller.stream;
   }
