@@ -52,7 +52,7 @@ class _CustomerCreateTripRequestState
     final scrrenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Easily go'),
+        title: const Text('Easily go'),
         elevation: 1,
       ),
       body: FutureBuilder(
@@ -140,7 +140,7 @@ class _CustomerCreateTripRequestState
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -150,7 +150,7 @@ class _CustomerCreateTripRequestState
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Close'),
+                      child: const Text('Close'),
                     ),
                     ButtonBlue(
                       onPress: () async {

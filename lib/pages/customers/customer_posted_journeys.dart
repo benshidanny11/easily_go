@@ -18,7 +18,7 @@ class CustomerPostedJourneys extends StatefulWidget {
 
 class _CustomerPostedJourneystState extends State<CustomerPostedJourneys> {
   int _journeysCount = 0;
-  int _tripRequestCount = 0;
+  final int _tripRequestCount = 0;
   Stream? joureysStream;
   List<Journey> journeItems = [];
   List<Journey> filteredJourneyItems = [];

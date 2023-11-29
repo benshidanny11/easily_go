@@ -2,6 +2,7 @@ import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/models/UserModel.dart';
+import 'package:easylygo_app/services/notification_servcice.dart';
 import 'package:easylygo_app/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
@@ -15,7 +16,7 @@ class CommonWidgets {
     return TextButton(onPressed: onPressed, child: Text(label));
   }
 
-  static AppBar customAppBar(String title) {
+  static AppBar customAppBar(String title, BuildContext context) {
     return AppBar(
       title: Text(
         title,
@@ -35,7 +36,14 @@ class CommonWidgets {
               Icons.notifications,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () {
+              print("Icon clicked");
+            Navigator.pushNamed(context,NOTIFICATIONS_LIST_PAGE);
+            //   Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => HomePage()),
+            // );
+            },
           ),
         ),
       ],
@@ -88,8 +96,8 @@ class CommonWidgets {
                           trackColor: MaterialStateProperty.all(
                               const Color.fromARGB(96, 234, 234, 234)),
                           activeColor:
-                              Color.fromARGB(255, 2, 170, 7).withOpacity(0.4),
-                          inactiveThumbColor: Color.fromARGB(255, 201, 111, 42)
+                              const Color.fromARGB(255, 2, 170, 7).withOpacity(0.4),
+                          inactiveThumbColor: const Color.fromARGB(255, 201, 111, 42)
                               .withOpacity(0.4),
                           value: userModel.status == 'active' ? true : false,
                           onChanged: onChanged,
@@ -167,7 +175,7 @@ class CommonWidgets {
       height: 20,
       width: 2,
       child: Container(
-        color: Color.fromARGB(255, 229, 229, 229),
+        color: const Color.fromARGB(255, 229, 229, 229),
       ),
     );
   }
@@ -202,5 +210,18 @@ class CommonWidgets {
             child: const Icon(Icons.cancel, color: AppColors.colorError))
       ],
     );
+  }
+
+  static Widget getNotificationCount(String userId){
+    return StreamBuilder<int>(stream: NotificationService.getNotificationCount(userId),builder:  (context, snapshot){
+      if(snapshot.connectionState==ConnectionState.waiting){
+        return const SizedBox(width: 10, height: 10, child:  CircularProgressIndicator());
+      }
+       if(snapshot.hasError){
+        return const Text('');
+      }
+      int notificationCount=snapshot.data as int;
+      return Text(notificationCount.toString(), style: const TextStyle(color: Colors.white, fontSize: 13));
+    });
   }
 }

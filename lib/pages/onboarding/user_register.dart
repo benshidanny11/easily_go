@@ -39,7 +39,7 @@ class _UserRegisterState extends ConsumerState<UserRegister> {
     return SafeArea(
       child: Scaffold(
           body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: SingleChildScrollView(
           child: SizedBox(
             height: sreenHeight * .9,

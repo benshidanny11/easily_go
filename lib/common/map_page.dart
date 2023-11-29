@@ -17,7 +17,7 @@ import 'package:location/location.dart';
 
 class EasylyGoMap extends ConsumerStatefulWidget {
   final LocationData? locationData;
-  EasylyGoMap({super.key, this.locationData});
+  const EasylyGoMap({super.key, this.locationData});
 
   @override
   ConsumerState<EasylyGoMap> createState() => EasylyGoMapState();
@@ -62,10 +62,10 @@ class EasylyGoMapState extends ConsumerState<EasylyGoMap> {
 
     Set<Marker> markers = {
       Marker(
-        markerId: MarkerId('myCurrentLocation'),
+        markerId: const MarkerId('myCurrentLocation'),
         position: LatLng(widget.locationData?.latitude as double,
             widget.locationData?.longitude as double),
-        infoWindow: InfoWindow(title: 'Me'),
+        infoWindow: const InfoWindow(title: 'Me'),
         // icon:  BitmapDescriptor.defaultMarkerWithHue()
       ),
     };
@@ -81,7 +81,7 @@ class EasylyGoMapState extends ConsumerState<EasylyGoMap> {
 
           if (snapshot.hasData) {
             List<UserModel> activeUsers = snapshot.data as List<UserModel>;
-            activeUsers.forEach((user) {
+            for (var user in activeUsers) {
               markers.add(Marker(
                 markerId: MarkerId(user.userId.toString()),
                 position: LatLng(user.location!.latitude as double,
@@ -108,7 +108,7 @@ class EasylyGoMapState extends ConsumerState<EasylyGoMap> {
                 },
                 // icon: BitmapDescriptor.fromBytes(iconMotoCycle!,)
               ));
-            });
+            }
           }
           print('marker lentgth===== ${markers.length}');
 

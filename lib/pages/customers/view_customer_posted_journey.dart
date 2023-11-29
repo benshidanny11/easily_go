@@ -1,7 +1,6 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/common/widgets.dart';
-import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
@@ -30,7 +29,7 @@ class _ViewCustomerPostedJourneyState
     UserModel user = ref.read(userProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Easily go'),
+        title: const Text('Easily go'),
         elevation: 1,
       ),
       body: Padding(
@@ -49,7 +48,7 @@ class _ViewCustomerPostedJourneyState
               height: 20,
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
                   color: AppColors.colorBackGroundLight,
                   borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -272,11 +271,11 @@ class _ViewCustomerPostedJourneyState
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   CommonWidgets.customDivider(),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                  JourneyService.checkCustomerJoinedJourney(journey.joinedPassengers, user.userId.toString())? CommonWidgets.buttonBlueRounded(
@@ -285,7 +284,7 @@ class _ViewCustomerPostedJourneyState
                           scheme: 'tel',
                           path: journey.ownerDetails.phoneNumber);
                       if (await canLaunchUrl(url)) {
-                        await launchUrl(url, webViewConfiguration: WebViewConfiguration());
+                        await launchUrl(url, webViewConfiguration: const WebViewConfiguration());
                       } else {
                         throw 'Could not launch $url';
                       }

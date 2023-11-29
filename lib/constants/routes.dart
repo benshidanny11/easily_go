@@ -19,3 +19,5 @@ const String CUSTOMER_CREATE_TRIP_REQUEST='/customer_create_trip_request';
 const String VIEW_JOINED_PASSENGERS='/view_joined_passengers';
 const String USER_PROFILE='/user_profile';
 const String EDIT_USER_PROFILE='/edit_edit_profile';
+const String NOTIFICATION_PAGE='/notifiaction_page';
+const String NOTIFICATIONS_LIST_PAGE='/notification_list_page';

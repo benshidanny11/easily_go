@@ -27,7 +27,7 @@ class _SignupState extends ConsumerState<Signup> {
     return SafeArea(
       child: Scaffold(
           body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Column(

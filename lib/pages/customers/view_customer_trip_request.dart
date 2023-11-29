@@ -1,10 +1,7 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/common/widgets.dart';
-import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/TripRequest.dart';
-import 'package:easylygo_app/services/journey_service.dart';
-import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:easylygo_app/utils/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,7 +17,7 @@ class ViewCustomerTripRequest extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Easily go'),
+        title: const Text('Easily go'),
         elevation: 1,
       ),
       body: Padding(
@@ -39,7 +36,7 @@ class ViewCustomerTripRequest extends StatelessWidget {
               height: 20,
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
                   color: AppColors.colorBackGroundLight,
                   borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -261,7 +258,7 @@ class ViewCustomerTripRequest extends StatelessWidget {
                           scheme: 'tel',
                           path: tripRequest.driverDetails.phoneNumber);
                       if (await canLaunchUrl(url)) {
-                        await launchUrl(url, webViewConfiguration: WebViewConfiguration());
+                        await launchUrl(url, webViewConfiguration: const WebViewConfiguration());
                       } else {
                         throw 'Could not launch $url';
                       }

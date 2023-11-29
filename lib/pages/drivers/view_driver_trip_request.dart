@@ -25,7 +25,7 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Easily go'),
+        title: const Text('Easily go'),
         elevation: 1,
       ),
       body: Padding(
@@ -44,7 +44,7 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
               height: 20,
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
                   color: AppColors.colorBackGroundLight,
                   borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -266,7 +266,7 @@ class _ViewDriverTripRequestState extends State<ViewDriverTripRequest> {
                           scheme: 'tel',
                           path: tripRequest.customerDetails.phoneNumber);
                       if (await canLaunchUrl(url)) {
-                        await launchUrl(url, webViewConfiguration: WebViewConfiguration());
+                        await launchUrl(url, webViewConfiguration: const WebViewConfiguration());
                       } else {
                         throw 'Could not launch $url';
                       }

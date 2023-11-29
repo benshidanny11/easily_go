@@ -7,13 +7,13 @@ import 'package:image_picker/image_picker.dart';
 class ImageUtil {
 
   static Future<XFile?> pickGalleryImage() async{
-      final ImagePicker _picker = ImagePicker();
-    return _picker.pickImage(source: ImageSource.gallery);
+      final ImagePicker picker = ImagePicker();
+    return picker.pickImage(source: ImageSource.gallery);
   }
 
     static Future<XFile?> pickCameramage() async{
-      final ImagePicker _picker = ImagePicker();
-    return _picker.pickImage(source: ImageSource.camera);
+      final ImagePicker picker = ImagePicker();
+    return picker.pickImage(source: ImageSource.camera);
   }
 
  static Future<String> uploadImage(String path, XFile xFile ) async {

@@ -16,7 +16,7 @@ class UserItem extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(5),
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1, color: const Color.fromARGB(255, 232, 232, 232)),
@@ -59,7 +59,7 @@ class UserItem extends StatelessWidget {
                           scheme: 'tel',
                           path: userModel.phoneNumber);
                       if (await canLaunchUrl(url)) {
-                        await launchUrl(url, webViewConfiguration: WebViewConfiguration());
+                        await launchUrl(url, webViewConfiguration: const WebViewConfiguration());
                       } else {
                         throw 'Could not launch $url';
                       }

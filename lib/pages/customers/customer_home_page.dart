@@ -16,13 +16,13 @@ class _CustomerHomeActivitiesState extends State<CustomerHomeActivities> {
     return FutureBuilder(
       future: LocationUtil.getCurrentLocationData(),
       builder: (context, snapshot) {
-        LocationData? _locationData = snapshot.hasData ? snapshot.data : null;
+        LocationData? locationData = snapshot.hasData ? snapshot.data : null;
         return snapshot.connectionState == ConnectionState.waiting
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : EasylyGoMap(
-                locationData: _locationData,
+                locationData: locationData,
               );
       },
     );

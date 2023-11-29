@@ -1,21 +1,15 @@
-import 'dart:io';
 
 import 'package:easylygo_app/common/button_blue.dart';
-import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/input_decorations.dart';
 import 'package:easylygo_app/common/text_styles.dart';
-import 'package:easylygo_app/common/widgets.dart';
-import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/services/user_service.dart';
 import 'package:easylygo_app/strings/extracted.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
-import 'package:easylygo_app/utils/image_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EditUserProfile extends ConsumerStatefulWidget {
   final UserModel userModel;
@@ -53,7 +47,7 @@ class _UserRegisterState extends ConsumerState<EditUserProfile> {
       child: Scaffold(
         appBar: AppBar(title:const Text('Easyly go'), elevation: 1,),
           body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: SingleChildScrollView(
           child: SizedBox(
             height: sreenHeight * .9,

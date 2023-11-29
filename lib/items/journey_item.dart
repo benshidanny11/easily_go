@@ -22,7 +22,7 @@ class JourneyItem extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(5),
-       margin: EdgeInsets.all( 5),
+       margin: const EdgeInsets.all( 5),
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1, color: const Color.fromARGB(255, 232, 232, 232)),

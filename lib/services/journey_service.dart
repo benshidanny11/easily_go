@@ -45,6 +45,8 @@ class JourneyService {
   static Stream<List<TripRequest>> getDriverTripRequest(String driverId) {
     StreamController<List<TripRequest>> controller =
         StreamController<List<TripRequest>>();
+
+        
     FirebaseUtil.initializeFirebase().then((value) {
       FirebaseUtil.collectionReferene("tripRequests")
           .where("driverId", isEqualTo: driverId)

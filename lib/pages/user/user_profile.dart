@@ -1,19 +1,11 @@
 import 'package:easylygo_app/common/colors.dart';
-import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/common/widgets.dart';
-import 'package:easylygo_app/constants/routes.dart';
-import 'package:easylygo_app/constants/string_constants.dart';
-import 'package:easylygo_app/models/Journey.dart';
-import 'package:easylygo_app/pages/drivers/view_joined_passengers.dart';
 import 'package:easylygo_app/pages/user/edit_user_profile.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
-import 'package:easylygo_app/services/journey_service.dart';
 import 'package:easylygo_app/services/user_service.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
-import 'package:easylygo_app/utils/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserProfile extends ConsumerStatefulWidget {
   const UserProfile({super.key});
@@ -29,7 +21,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Easily go'),
+          title: const Text('Easily go'),
           elevation: 1,
         ),
         body: Container(
@@ -39,13 +31,13 @@ class _UserProfileState extends ConsumerState<UserProfile> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
                     color: AppColors.colorBackGroundLight,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 120,
                       child: Stack(children: [
                         Container(),
@@ -83,11 +75,11 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                         ),
                       ]),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     CommonWidgets.customDivider(),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(

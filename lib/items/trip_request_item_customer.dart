@@ -19,7 +19,7 @@ class TripRequestItemCustomer extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(5),
-        margin: EdgeInsets.all( 5),
+        margin: const EdgeInsets.all( 5),
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1, color: const Color.fromARGB(255, 232, 232, 232)),
@@ -101,7 +101,7 @@ class TripRequestItemCustomer extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       CommonWidgets.tag(

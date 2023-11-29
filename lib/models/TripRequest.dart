@@ -1,6 +1,5 @@
 import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:easylygo_app/models/UserModel.dart';
-import 'package:flutter/material.dart';
 
 class TripRequest {
   String requestId;

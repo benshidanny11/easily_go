@@ -1,7 +1,6 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/constants/routes.dart';
-import 'package:easylygo_app/models/LocationModel.dart';
 import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:easylygo_app/pages/customers/customer_payment_activities.dart';
 import 'package:easylygo_app/pages/customers/customer_home_page.dart';
@@ -24,7 +23,7 @@ class CustomerHomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<CustomerHomePage> {
   int index = 0;
 
-  List<Widget> pages = [CustomerHomeActivities(), CustomerPaymentPage()];
+  List<Widget> pages = [const CustomerHomeActivities(), const CustomerPaymentPage()];
 
   @override
   void initState() {
@@ -69,7 +68,7 @@ class _HomePageState extends ConsumerState<CustomerHomePage> {
                 index = 0;
               });
             },
-            child: Icon(Icons.refresh),
+            child: const Icon(Icons.refresh),
           )
         ],
       ),

@@ -24,7 +24,7 @@ class HomeActivities extends ConsumerStatefulWidget {
 
 class _HomeActivitiesState extends ConsumerState<HomeActivities> {
   int _journeysCount = 0;
-   int _tripRequestCount = 0;
+   final int _tripRequestCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +117,7 @@ class _HomeActivitiesState extends ConsumerState<HomeActivities> {
                 }
               },
             ),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
                  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

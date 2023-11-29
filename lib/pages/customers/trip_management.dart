@@ -18,7 +18,7 @@ class _CustomerTripManagementtState extends ConsumerState<CustomerTripManagement
 
 
  int _journeysCount = 0;
-   int _tripRequestCount = 0;
+   final int _tripRequestCount = 0;
 
   @override
   Widget build(BuildContext context) {

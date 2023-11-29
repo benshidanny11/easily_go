@@ -30,6 +30,7 @@ dependencies:
   geolocator: ^10.1.0
   url_launcher: ^6.1.14
   firebase_messaging: ^14.7.5
+  flutter_local_notifications: ^16.2.0
   # flutter_google_places_hoc081098: ^1.2.0
   # google_maps_place_picker_mb: ^3.1.2
   # flutter_google_maps_webservices: ^1.1.1

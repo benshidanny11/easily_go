@@ -35,6 +35,9 @@
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyAtEWPHFSTSuRFSGLqmY_MO_ah-ntyeIko"/>
+        <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="default_channel_id" />
     </application>
     <!-- Provide required visibility configuration for API level 30 and above -->
 <queries>

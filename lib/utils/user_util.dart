@@ -15,5 +15,7 @@ class UserUtil{
             ref.read(userProvider).imageUrl=user.imageUrl;
             ref.read(userProvider).status=user.status;
             ref.read(userProvider).location=user.location;
+            ref.read(userProvider).docId=user.docId;
+            ref.read(userProvider).deviceToken=user.deviceToken;
   }
 }

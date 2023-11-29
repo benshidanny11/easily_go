@@ -24,7 +24,7 @@ class _TermsAndConditionsState extends ConsumerState<TermsAndConditions> {
     return SafeArea(
       child: Scaffold(
           body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -50,7 +50,7 @@ class _TermsAndConditionsState extends ConsumerState<TermsAndConditions> {
                               'Accept Easily Go Terms & Conditions',
                               style: textStyleTitle(17),
                             ),
-                            Container(
+                            SizedBox(
                               width: sreenWidth * .75, // Example width
                               child: Text(
                                 'By selecting “I Agree” bellow, you have reviewed  and agree the Terms and acknowledged the privacy notice',

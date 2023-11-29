@@ -56,7 +56,7 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
     final scrrenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CommonWidgets.customAppBar("Easily Go"),
+      appBar: CommonWidgets.customAppBar("Easily Go", context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10),

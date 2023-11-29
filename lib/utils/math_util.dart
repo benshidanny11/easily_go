@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 class MathUtil{
 
  static Future<String> calculateDistance(LatLng point1, LatLng point2) async{
- double distanceInMeters = await Geolocator.distanceBetween(
+ double distanceInMeters = Geolocator.distanceBetween(
       point1.latitude,
       point1.longitude,
       point2.latitude,
