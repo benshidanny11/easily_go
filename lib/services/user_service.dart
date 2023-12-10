@@ -112,4 +112,16 @@ static Future<void> updateUserProfileInfo(UserModel userModel) async{
           .update(userModel.toJson());
     }
 }
+
+static Future<void> updateUserToken(String userId, String token) async{
+
+    QuerySnapshot snapshot = await FirebaseUtil.collectionReferene('users')
+        .where('userId', isEqualTo: userId)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      await FirebaseUtil.collectionReferene('users')
+          .doc(snapshot.docs[0].id)
+          .set({"deviceToken": token}, SetOptions(merge: true));
+    }
+}
 }

@@ -221,7 +221,7 @@ class CommonWidgets {
         return const Text('');
       }
       int notificationCount=snapshot.data as int;
-      return Text(notificationCount.toString(), style: const TextStyle(color: Colors.white, fontSize: 13));
+      return Text(notificationCount>0?notificationCount.toString():'', style: const TextStyle(color: Colors.white, fontSize: 13));
     });
   }
 }

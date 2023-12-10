@@ -8,6 +8,7 @@ import 'package:easylygo_app/services/user_service.dart';
 import 'package:easylygo_app/utils/auth_util.dart';
 import 'package:easylygo_app/utils/user_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -86,6 +87,8 @@ class _SignupState extends ConsumerState<Signup> {
                 if (userExists) {
                   UserModel userModel =
                       await UserService.getCurrentUser(user.email.toString()) as UserModel;
+                  final token=await FirebaseMessaging.instance.getToken();
+                  await UserService.updateUserToken(userModel.userId.toString(), token!);
                   final prefs = await SharedPreferences.getInstance();
                   prefs.setString(PREF_EMAIL, userModel.email!);
                   prefs.setString(PREF_USERID, userModel.userId!);

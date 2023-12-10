@@ -1,32 +1,47 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/common/widgets.dart';
-import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/Journey.dart';
-import 'package:easylygo_app/pages/drivers/view_joined_passengers.dart';
-import 'package:easylygo_app/services/journey_service.dart';
-import 'package:easylygo_app/utils/alert_util.dart';
+import 'package:easylygo_app/models/NotificationModel.dart';
+import 'package:easylygo_app/models/TripRequest.dart';
+import 'package:easylygo_app/pages/drivers/home_layoout.dart';
+import 'package:easylygo_app/pages/notifications/notification_list.dart';
+import 'package:easylygo_app/providers/app_provider.dart';
+import 'package:easylygo_app/services/notification_servcice.dart';
 import 'package:easylygo_app/utils/date_util.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ViewDriverJourney extends StatefulWidget {
-  const ViewDriverJourney({super.key});
+class JourneyJoinNotification extends ConsumerStatefulWidget {
+  const JourneyJoinNotification({super.key});
 
   @override
-  State<ViewDriverJourney> createState() => _ViewDriverJourneyState();
+  ConsumerState<JourneyJoinNotification> createState() => _ApprovedRequestNotificationState();
 }
 
-class _ViewDriverJourneyState extends State<ViewDriverJourney> {
+class _ApprovedRequestNotificationState extends ConsumerState<JourneyJoinNotification> {
   @override
   Widget build(BuildContext context) {
-    final Journey journey =
-        ModalRoute.of(context)!.settings.arguments as Journey;
-
-    return Scaffold(
+    RemoteMessage message= ModalRoute.of(context)!.settings.arguments as RemoteMessage;
+    String notificationId=message.data['notificationId'];
+    String userDocId=ref.read(userProvider).docId.toString();
+    print('Notification id======>${message.data['notificationId']}');
+    return  Scaffold(
       appBar: AppBar(
         title: const Text('Easily go'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const NotificationsList()),
+            );
+          },
+        ),
         elevation: 1,
+        
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -34,14 +49,24 @@ class _ViewDriverJourneyState extends State<ViewDriverJourney> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Your journey',
+              'Journey join notification',
               style: textStyleTitle(16),
             ),
             const SizedBox(
               height: 30,
             ),
-            
-            Container(
+
+          StreamBuilder<NotificationModel>(stream: NotificationService.getNotificationDetails(userDocId, notificationId),builder:(BuildContext ctx, AsyncSnapshot snapshot){
+
+            if(snapshot.connectionState==ConnectionState.waiting)  return const Center(child: CircularProgressIndicator(),);
+
+            if(snapshot.hasError ) return const Center(child: Text('An error occured'),);
+      
+            NotificationModel notificationModel=snapshot.data;
+          
+            Journey journey=Journey.fromJson(notificationModel.notificationData);
+
+            return Container(
               padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
                   color: AppColors.colorBackGroundLight,
@@ -49,52 +74,29 @@ class _ViewDriverJourneyState extends State<ViewDriverJourney> {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
+                      const Icon(
+                        FontAwesomeIcons.car,
+                        color: AppColors.mainColor,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
-                            FontAwesomeIcons.car,
-                            color: AppColors.mainColor,
+                          Text(
+                            'Joined journey notification detalis',
+                            style: textStyleContentSmall(12),
                           ),
                           const SizedBox(
-                            width: 20,
+                            height: 2,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Journey detalis',
-                                style: textStyleContentSmall(12),
-                              ),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                  '${journey.joinedPassengers.length} passengers have joined',
-                                  style: textStyleContentSmall(12)),
-                            ],
-                          )
+                          Text(
+                              '${journey.joinedPassengers.length} passengers have joined',
+                              style: textStyleContentSmall(12)),
                         ],
-                      ),
-                      journey.jorneyStatus == JOURNEY_STATUS_CANCELED
-                          ? CommonWidgets.tag(
-                              AppColors.colorWarning, 'Canceled')
-                          : GestureDetector(
-                              onTap: () {
-                                AlertUtil.showAlertDialog(context, () async {
-                                  AlertUtil.showLoadingAlertDialig(
-                                      context, 'Canceling jorney', false);
-                                  await JourneyService.cancelJourney(journey);
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
-                                }, 'Cancel journey',
-                                    'Are you sure you want to canel journey?');
-                              },
-                              child: const Icon(
-                                Icons.cancel,
-                                color: AppColors.mainColor,
-                              ))
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -236,28 +238,6 @@ class _ViewDriverJourneyState extends State<ViewDriverJourney> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 15,),
-                                    Row(
-                    children: [
-                      const Icon(
-                        FontAwesomeIcons.dollarSign,
-                        color: AppColors.mainColor,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Remaining sits'),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(journey.numberOfSits.toString()),
-                        ],
-                      )
-                    ],
-                  ),
                    const SizedBox(
                     height: 15,
                   ),
@@ -286,17 +266,17 @@ class _ViewDriverJourneyState extends State<ViewDriverJourney> {
                   CommonWidgets.customDivider(),
                   const SizedBox(height: 20,),
                   CommonWidgets.buttonBlueRounded(onPressed: (){
-                     Navigator.push(
+                     Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ViewJoinedPassengers(
-                              joinedPassengers: journey.joinedPassengers,
+                        builder: (context) => const HomePage(
                             )),
                   );
-                  },label: 'See joined passengers', )
+                  },label: 'Go to journeys', )
                 ],
               ),
-            ),
+            );
+          }),
           ],
         ),
       ),

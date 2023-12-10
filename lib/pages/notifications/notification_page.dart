@@ -1,20 +1,18 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/common/widgets.dart';
+import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/NotificationModel.dart';
 import 'package:easylygo_app/models/TripRequest.dart';
 import 'package:easylygo_app/pages/notifications/notification_list.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
-import 'package:easylygo_app/services/journey_service.dart';
 import 'package:easylygo_app/services/notification_servcice.dart';
-import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:easylygo_app/utils/date_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NotificationPage extends ConsumerWidget {
 
@@ -24,6 +22,7 @@ class NotificationPage extends ConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     RemoteMessage message= ModalRoute.of(context)!.settings.arguments as RemoteMessage;
     String notificationId=message.data['notificationId'];
+    String notificationType=message.data['notificationType'];
     String userDocId=ref.read(userProvider).docId.toString();
     print('Notification id======>${message.data['notificationId']}');
     return  Scaffold(
@@ -47,7 +46,7 @@ class NotificationPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Your trip request notification',
+             notificationType==TRIP_REQUEST_NOTIFICARION? 'Your trip request notification':'Your trip request approval notification',
               style: textStyleTitle(16),
             ),
             const SizedBox(
@@ -75,65 +74,26 @@ class NotificationPage extends ConsumerWidget {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
+                      const Icon(
+                        FontAwesomeIcons.car,
+                        color: AppColors.mainColor,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
-                            FontAwesomeIcons.car,
-                            color: AppColors.mainColor,
+                          Text(
+                            'Trip request notification detalis',
+                            style: textStyleContentSmall(12),
                           ),
                           const SizedBox(
-                            width: 20,
+                            height: 2,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Trip request notification detalis',
-                                style: textStyleContentSmall(12),
-                              ),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                            ],
-                          )
                         ],
-                      ),
-                      tripRequest.status == REQUEST_STATUS_PENDING
-                          ? PopupMenuButton<String>(
-                              onSelected: (String result) async {
-                                AlertUtil.showLoadingAlertDialig(
-                                    context,
-                                    result == REQUEST_STATUS_APROVED
-                                        ? 'Approving request'
-                                        : 'Rejecting request',
-                                    false);
-                                if (result == REQUEST_STATUS_APROVED) {
-                                  await JourneyService.approveTrip(tripRequest);
-                                } else {
-                                  await JourneyService.rejectTrip(tripRequest);
-                                }
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text("Request has been $result!"),
-                                ));
-                              },
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<String>>[
-                                const PopupMenuItem<String>(
-                                  value: REQUEST_STATUS_APROVED,
-                                  child: Text('Approve'),
-                                ),
-                                const PopupMenuItem<String>(
-                                  value: REQUEST_STATUS_REJECTED,
-                                  child: Text('Reject'),
-                                ),
-                              ],
-                            )
-                          : Container()
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -286,16 +246,13 @@ class NotificationPage extends ConsumerWidget {
                   ),
                   CommonWidgets.buttonBlueRounded(
                     onPressed: () async {
-                      var url = Uri(
-                          scheme: 'tel',
-                          path: tripRequest.customerDetails.phoneNumber);
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url, webViewConfiguration: const WebViewConfiguration());
-                      } else {
-                        throw 'Could not launch $url';
-                      }
+                    if(notificationType==TRIP_REQUEST_NOTIFICARION){
+                    Navigator.pushReplacementNamed(context, VIEW_TRIP_REQUEST_DETAILS, arguments: tripRequest);
+                    }else{
+                      Navigator.pushReplacementNamed(context, CUSTOMER_TRIP_REQUEST_DETAILS, arguments: tripRequest); 
+                    }
                     },
-                    label: 'Call customer',
+                    label: 'View trip',
                   )
                 ],
               ),

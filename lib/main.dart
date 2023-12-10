@@ -11,6 +11,7 @@ import 'package:easylygo_app/pages/drivers/create_journey.dart';
 import 'package:easylygo_app/pages/drivers/home_layoout.dart';
 import 'package:easylygo_app/pages/drivers/view_driver_journey.dart';
 import 'package:easylygo_app/pages/drivers/view_driver_trip_request.dart';
+import 'package:easylygo_app/pages/notifications/joined_jourmey_notification_page.dart';
 import 'package:easylygo_app/pages/notifications/notification_list.dart';
 import 'package:easylygo_app/pages/notifications/notification_page.dart';
 import 'package:easylygo_app/pages/onboarding/get_started.dart';
@@ -65,7 +66,8 @@ class MyApp extends StatelessWidget {
         SEARCH_PLACES:(context) => const SearchPlases(),
         USER_PROFILE:(context) => const UserProfile (),
         NOTIFICATION_PAGE:(context) => const NotificationPage(),
-        NOTIFICATIONS_LIST_PAGE:(context) => const NotificationsList()
+        NOTIFICATIONS_LIST_PAGE:(context) => const NotificationsList(),
+        JOIN_JOURNEY_NOTIFICATION_PAGE:(context) => const JourneyJoinNotification()
       },
     );
   }

@@ -17,8 +17,6 @@ class CustomerPostedJourneys extends StatefulWidget {
 }
 
 class _CustomerPostedJourneystState extends State<CustomerPostedJourneys> {
-  int _journeysCount = 0;
-  final int _tripRequestCount = 0;
   Stream? joureysStream;
   List<Journey> journeItems = [];
   List<Journey> filteredJourneyItems = [];
@@ -150,7 +148,6 @@ class _CustomerPostedJourneystState extends State<CustomerPostedJourneys> {
                         }
                         if (snapshot.hasData) {
                           journeItems = snapshot.data as List<Journey>;
-                          _journeysCount = journeItems.length;
                           return SizedBox(
                             height: 90.0 * journeItems.length,
                             child: ListView.builder(

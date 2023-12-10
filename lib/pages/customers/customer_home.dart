@@ -1,5 +1,6 @@
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/text_styles.dart';
+import 'package:easylygo_app/common/widgets.dart';
 import 'package:easylygo_app/constants/routes.dart';
 import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:easylygo_app/pages/customers/customer_payment_activities.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:location/location.dart';
+import 'package:badges/badges.dart' as badges;
 
 class CustomerHomePage extends ConsumerStatefulWidget {
   const CustomerHomePage({super.key});
@@ -23,7 +25,10 @@ class CustomerHomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<CustomerHomePage> {
   int index = 0;
 
-  List<Widget> pages = [const CustomerHomeActivities(), const CustomerPaymentPage()];
+  List<Widget> pages = [
+    const CustomerHomeActivities(),
+    const CustomerPaymentPage()
+  ];
 
   @override
   void initState() {
@@ -34,10 +39,10 @@ class _HomePageState extends ConsumerState<CustomerHomePage> {
     // LocationUtil.getCurrentLocationData().then((locationData) => {
     //   PlaceService.getInitlaAddress(locationData!).then((value) => {
     //     print("Hellllloooooo there++++++<<<<<<+++++++@@@@@@@@@@@@@@@$value")
-     
+
     //   }).catchError((error){
     //     print("Errorrr========<<<<<<<>>>>>>>$error");
-      
+
     //     })
     // });
   }
@@ -64,11 +69,36 @@ class _HomePageState extends ConsumerState<CustomerHomePage> {
         actions: [
           GestureDetector(
             onTap: () {
-              setState(() {
-                index = 0;
-              });
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => super.widget));
             },
             child: const Icon(Icons.refresh),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: badges.Badge(
+              position: badges.BadgePosition.topEnd(top: 5, end: 7),
+              badgeStyle: const badges.BadgeStyle(
+                  badgeColor: AppColors.mainColor, padding: EdgeInsets.all(3)),
+              badgeContent:
+                  CommonWidgets.getNotificationCount(user.docId.toString()),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.notifications,
+                  size: 30,
+                ),
+                onPressed: () {
+                  print("Icon clicked");
+                  Navigator.pushNamed(context, NOTIFICATIONS_LIST_PAGE);
+                  //   Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => HomePage()),
+                  // );
+                },
+              ),
+            ),
           )
         ],
       ),
@@ -91,13 +121,17 @@ class _HomePageState extends ConsumerState<CustomerHomePage> {
                     children: [
                       Column(
                         children: [
-                          ClipOval(
-                              child: Image.asset(
-                            'assets/images/user_avatar.png',
-                            width: 60,
-                            height: 60,
-                            fit: BoxFit.cover,
-                          )),
+                          (user.imageUrl != null && user.imageUrl != '')
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage:
+                                      NetworkImage(user.imageUrl.toString()),
+                                )
+                              : const CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: AssetImage(
+                                      'assets/images/user_avatar.png'),
+                                ),
                           Text(
                             user.fullName.toString(),
                             style: textStyleTitle(13),
@@ -169,7 +203,7 @@ class _HomePageState extends ConsumerState<CustomerHomePage> {
               ),
               title: const Text('Profile'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, USER_PROFILE);
               },
             ),
             ListTile(

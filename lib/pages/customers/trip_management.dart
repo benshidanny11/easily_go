@@ -17,9 +17,6 @@ class CustomerTripManagement extends ConsumerStatefulWidget {
 class _CustomerTripManagementtState extends ConsumerState<CustomerTripManagement> {
 
 
- int _journeysCount = 0;
-   final int _tripRequestCount = 0;
-
   @override
   Widget build(BuildContext context) {
     String userId = ref.read(userProvider).userId.toString();
@@ -60,7 +57,6 @@ class _CustomerTripManagementtState extends ConsumerState<CustomerTripManagement
               if (snapshot.hasData) {
                
                 List<TripRequest> tripRequests = snapshot.data as List<TripRequest>;
-                    _journeysCount=tripRequests.length;
                 return SizedBox(
                   height: 120.0 * tripRequests.length,
                   child: ListView.builder(

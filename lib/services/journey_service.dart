@@ -39,14 +39,14 @@ class JourneyService {
         tripRequest.driverDetails.docId.toString(),
         tripRequest,
         'Trip request',
-        'Yo got a trip request from ${tripRequest.customerDetails.fullName}');
+        'Yo got a trip request from ${tripRequest.customerDetails.fullName}',
+        TRIP_REQUEST_NOTIFICARION);
   }
 
   static Stream<List<TripRequest>> getDriverTripRequest(String driverId) {
     StreamController<List<TripRequest>> controller =
         StreamController<List<TripRequest>>();
 
-        
     FirebaseUtil.initializeFirebase().then((value) {
       FirebaseUtil.collectionReferene("tripRequests")
           .where("driverId", isEqualTo: driverId)
@@ -76,6 +76,12 @@ class JourneyService {
           .doc(snapshot.docs[0].id)
           .update(tripRequest.toJson());
     }
+   await NotificationService.createNotification(
+        tripRequest.customerDetails.docId.toString(),
+        tripRequest,
+        'Trip request approved',
+        'Your trip request was approved',
+        APPROVED_TRIP_NOTIFICARION);
   }
 
   static Future<bool> rejectTrip(TripRequest tripRequest) async {
@@ -164,6 +170,12 @@ class JourneyService {
       await FirebaseUtil.collectionReferene('journeys')
           .doc(snapshot.docs[0].id)
           .update(journey.toJson());
+           await NotificationService.createNotification(
+        journey.ownerDetails.docId.toString(),
+        journey,
+        'Journey was joined',
+        'You journey was joined by ${customer.fullName}',
+        JOIN_JOURNEY_NOTIFICATION);
       return true;
     }
     return false;

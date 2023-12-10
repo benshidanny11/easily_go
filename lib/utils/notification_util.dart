@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easylygo_app/constants/routes.dart';
+import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,22 +12,31 @@ Future<void> handleBackgroundNotification(RemoteMessage message) async {
 }
 
 class NotificationUtil {
- static final _firebaseMessaging = FirebaseMessaging.instance;
+  static final _firebaseMessaging = FirebaseMessaging.instance;
 
- static const _androidChannel =  AndroidNotificationChannel(
+  static const _androidChannel = AndroidNotificationChannel(
       'default_channel_id', 'App notification',
       description: 'Notification channel for app',
       importance: Importance.defaultImportance);
 
- static final _localNotification = FlutterLocalNotificationsPlugin();
+  static final _localNotification = FlutterLocalNotificationsPlugin();
 
- static void handleMessage(RemoteMessage? message) {
-    
+  static void handleMessage(RemoteMessage? message) {
+  
     if (message == null) return;
-    navigatorKey.currentState?.pushNamed(NOTIFICATION_PAGE, arguments: message);
+    String notificationType = message.data['notificationType'];
+      print('Notification type=========++++++===+++++++++++====>>>> $notificationType');
+    if (notificationType == TRIP_REQUEST_NOTIFICARION || notificationType== APPROVED_TRIP_NOTIFICARION) {
+      navigatorKey.currentState
+          ?.pushNamed(NOTIFICATION_PAGE, arguments: message);
+    }
+    else if(notificationType== JOIN_JOURNEY_NOTIFICATION){
+      navigatorKey.currentState
+          ?.pushNamed(JOIN_JOURNEY_NOTIFICATION_PAGE, arguments: message);
+    }
   }
 
- static Future initPushNotification() async {
+  static Future initPushNotification() async {
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
             alert: true, badge: true, sound: true);
@@ -49,20 +59,25 @@ class NotificationUtil {
     });
   }
 
- static Future initLocalNotifiaction() async {
-    const iOS=DarwinInitializationSettings();
-    const android=AndroidInitializationSettings('@drawable/ic_launcher');
-    const settings=InitializationSettings(android: android, iOS: iOS);
-    _localNotification.initialize(settings, onDidReceiveNotificationResponse: (details) {
-      final message=RemoteMessage.fromMap(jsonDecode(details.payload.toString()));
-      handleMessage(message);
-    },);
+  static Future initLocalNotifiaction() async {
+    const iOS = DarwinInitializationSettings();
+    const android = AndroidInitializationSettings('@drawable/ic_launcher');
+    const settings = InitializationSettings(android: android, iOS: iOS);
+    _localNotification.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (details) {
+        final message =
+            RemoteMessage.fromMap(jsonDecode(details.payload.toString()));
+        handleMessage(message);
+      },
+    );
 
-    final platform=_localNotification.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    final platform = _localNotification.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
     await platform!.createNotificationChannel(_androidChannel);
   }
 
- static Future<void> initNotification() async {
+  static Future<void> initNotification() async {
     await _firebaseMessaging.requestPermission();
     initPushNotification();
     initLocalNotifiaction();
