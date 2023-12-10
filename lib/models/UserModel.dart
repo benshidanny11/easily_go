@@ -14,6 +14,7 @@ class UserModel {
   LocationModel? location;
   String? deviceToken;
   String? docId;
+  
 
   UserModel(
       { this.fullName,
