@@ -1,5 +1,6 @@
 import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/LocationModel.dart';
+import 'package:easylygo_app/models/wallet.dart';
 
 class UserModel {
   String? fullName;
@@ -14,7 +15,6 @@ class UserModel {
   LocationModel? location;
   String? deviceToken;
   String? docId;
-  
 
   UserModel(
       { this.fullName,
@@ -28,7 +28,7 @@ class UserModel {
         this.status='active',
         this.location,
         this.deviceToken, 
-        this.docId});
+        this.docId,});
   Map<String, dynamic> toJson() {
     return {
       "fullName": fullName,
@@ -42,7 +42,7 @@ class UserModel {
        "status":status,
        "location":location!=null ? location!.toJson(): null,
        "deviceToken":deviceToken,
-       "docId":docId
+       "docId":docId,
     };
   }
 
@@ -59,7 +59,7 @@ class UserModel {
         status: json['status'] ?? 'offline',
         location:json['location'] !=null? LocationModel.fromJson(json['location']): null,
         deviceToken:json['deviceToken'],
-        docId:json ['docId']); 
+        docId:json ['docId'],); 
 
   }
 }

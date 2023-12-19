@@ -5,6 +5,7 @@ import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/services/user_service.dart';
+import 'package:easylygo_app/strings/extracted.dart';
 import 'package:easylygo_app/utils/auth_util.dart';
 import 'package:easylygo_app/utils/user_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,15 @@ class Signup extends ConsumerStatefulWidget {
 }
 
 class _SignupState extends ConsumerState<Signup> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // if(USER_MODE==){
+
+    // }
+  }
   @override
   Widget build(BuildContext context) {
     final sreenWidth = MediaQuery.of(context).size.width;

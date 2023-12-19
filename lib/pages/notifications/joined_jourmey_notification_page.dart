@@ -3,7 +3,6 @@ import 'package:easylygo_app/common/text_styles.dart';
 import 'package:easylygo_app/common/widgets.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/models/NotificationModel.dart';
-import 'package:easylygo_app/models/TripRequest.dart';
 import 'package:easylygo_app/pages/drivers/home_layoout.dart';
 import 'package:easylygo_app/pages/notifications/notification_list.dart';
 import 'package:easylygo_app/providers/app_provider.dart';

@@ -22,3 +22,4 @@ const String EDIT_USER_PROFILE='/edit_edit_profile';
 const String NOTIFICATION_PAGE='/notifiaction_page';
 const String NOTIFICATIONS_LIST_PAGE='/notification_list_page';
 const String JOIN_JOURNEY_NOTIFICATION_PAGE='/join_journey_notification_page';
+const String TOPUP_WALLET_PAGE='/top_up_Wallet_page';

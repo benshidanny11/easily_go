@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/LocationModel.dart';
 import 'package:easylygo_app/models/UserModel.dart';
+import 'package:easylygo_app/models/wallet.dart';
 import 'package:easylygo_app/utils/firestore_util.dart';
 import 'package:easylygo_app/utils/image_util.dart';
 import 'package:easylygo_app/utils/location_util.dart';
@@ -11,12 +13,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class UserService {
   static Future<void> registerUser(UserModel userModel) async {
    DocumentReference docRef= await FirebaseUtil.collectionReferene("users").add(userModel.toJson());
    String docId=docRef.id;
-  await docRef.update({'docId':docId});
+  await docRef.update({'docId': docId});
+     if(userModel.userRole==DRIVER_ROLE || userModel.userRole == MOTOR_RIDER_ROLE){
+     var uuid = const Uuid().v4();
+    Wallet wallet=Wallet(id: uuid, balance: 0.0, driverId: userModel.userId.toString(), transactions: []);
+    await FirebaseUtil.collectionReferene("wallets").add(wallet.toJson());
+   }
   }
 
   static Future<UserModel?> getCurrentUser(String email) async {

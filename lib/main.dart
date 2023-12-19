@@ -9,6 +9,7 @@ import 'package:easylygo_app/pages/customers/view_customer_posted_journey.dart';
 import 'package:easylygo_app/pages/customers/view_customer_trip_request.dart';
 import 'package:easylygo_app/pages/drivers/create_journey.dart';
 import 'package:easylygo_app/pages/drivers/home_layoout.dart';
+import 'package:easylygo_app/pages/drivers/top_up_page.dart';
 import 'package:easylygo_app/pages/drivers/view_driver_journey.dart';
 import 'package:easylygo_app/pages/drivers/view_driver_trip_request.dart';
 import 'package:easylygo_app/pages/notifications/joined_jourmey_notification_page.dart';
@@ -67,7 +68,8 @@ class MyApp extends StatelessWidget {
         USER_PROFILE:(context) => const UserProfile (),
         NOTIFICATION_PAGE:(context) => const NotificationPage(),
         NOTIFICATIONS_LIST_PAGE:(context) => const NotificationsList(),
-        JOIN_JOURNEY_NOTIFICATION_PAGE:(context) => const JourneyJoinNotification()
+        JOIN_JOURNEY_NOTIFICATION_PAGE:(context) => const JourneyJoinNotification(),
+        TOPUP_WALLET_PAGE:(context) => TopUpWalletPage()
       },
     );
   }

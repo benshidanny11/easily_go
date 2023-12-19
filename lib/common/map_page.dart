@@ -128,7 +128,7 @@ class EasylyGoMapState extends ConsumerState<EasylyGoMap> {
 
           return currentLocationCameraPosition != null
               ? GoogleMap(
-                  mapType: MapType.hybrid,
+                  mapType: MapType.normal,
                   initialCameraPosition: currentLocationCameraPosition,
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
