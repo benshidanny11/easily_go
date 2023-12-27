@@ -26,7 +26,7 @@ class Wallet {
     print(json['transactions']);
     return Wallet(
         id: json["id"],
-        balance: json["balance"],
+        balance: json["balance"]+0.0,
         transactions:
             json['transactions'].map((e) { return TransactionModel.fromJson(e);}).toList(),
         driverId: json["driverId"]);

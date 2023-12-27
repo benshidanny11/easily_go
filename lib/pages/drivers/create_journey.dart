@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:easylygo_app/common/button_blue.dart';
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/input_decorations.dart';
@@ -8,8 +10,10 @@ import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:easylygo_app/models/UserModel.dart';
+import 'package:easylygo_app/models/wallet.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/services/journey_service.dart';
+import 'package:easylygo_app/services/wallet_service.dart';
 import 'package:easylygo_app/strings/extracted.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:easylygo_app/utils/date_util.dart';
@@ -31,14 +35,16 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
   final destinationController = TextEditingController();
   final priceController = TextEditingController();
   final sitsController = TextEditingController();
+  final serviceConstController = TextEditingController(text: '0');
+  double journeyServiceConst = 0.0;
   DateTime? startTime;
   bool validateOrign = false;
   bool validateDestination = false;
   bool validatePrice = false;
   String jorneyType = "Trip";
 
-  String choosenDate = DateUtil.getDateString(DateTime.now());
-  String choosenTime = DateUtil.getTimeString(DateTime.now());
+  String? choosenDate;
+  String? choosenTime;
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +54,7 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
 
     foundPicupPlace = ref.watch(placeModelProvider);
     foundDropOfPlace = ref.watch(dropOffPlaceModelProvider);
-    originController.text =
-        foundPicupPlace!.placeDescription.toString();
+    originController.text = foundPicupPlace!.placeDescription.toString();
     destinationController.text = foundDropOfPlace!.placeDescription != null
         ? foundDropOfPlace.placeDescription.toString()
         : '';
@@ -94,59 +99,59 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
               const SizedBox(
                 height: 20,
               ),
-             Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: scrrenWidth * .8,
-                      child: TextFormField(
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                            labelText: 'Journey origin'),
-                        controller: originController,
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: scrrenWidth * .8,
+                    child: TextFormField(
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      readOnly: true,
+                      decoration:
+                          const InputDecoration(labelText: 'Journey origin'),
+                      controller: originController,
                     ),
-                    GestureDetector(
-                        onTap: () {
-                          FIND_PLACE_PLACE_MODE= "PICK_UP_MODE";
-                          Navigator.pushNamed(context, SEARCH_PLACES);
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          color: AppColors.mainColor,
-                        ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: scrrenWidth * .8,
-                      child: TextFormField(
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                            labelText: 'Journey destination'),
-                        controller: destinationController,
-                      ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        FIND_PLACE_PLACE_MODE = "PICK_UP_MODE";
+                        Navigator.pushNamed(context, SEARCH_PLACES);
+                      },
+                      child: const Icon(
+                        Icons.edit,
+                        color: AppColors.mainColor,
+                      ))
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: scrrenWidth * .8,
+                    child: TextFormField(
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      readOnly: true,
+                      decoration: const InputDecoration(
+                          labelText: 'Journey destination'),
+                      controller: destinationController,
                     ),
-                    GestureDetector(
-                        onTap: () {
-                          FIND_PLACE_PLACE_MODE = "DROP_OFF_MODE";
-                          Navigator.pushNamed(context, SEARCH_PLACES);
-                        },
-                        child: const Icon(
-                          Icons.search,
-                          color: AppColors.mainColor,
-                        ))
-                  ],
-                ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        FIND_PLACE_PLACE_MODE = "DROP_OFF_MODE";
+                        Navigator.pushNamed(context, SEARCH_PLACES);
+                      },
+                      child: const Icon(
+                        Icons.search,
+                        color: AppColors.mainColor,
+                      ))
+                ],
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -177,6 +182,14 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
               SizedBox(
                 width: sreenWidth * .9,
                 child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      double curentPrice = double.parse(value);
+                      journeyServiceConst = curentPrice * 0.08;
+                      serviceConstController.text =
+                          journeyServiceConst.toString();
+                    });
+                  },
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -185,6 +198,23 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
                   decoration: InputDecorations.getInputTextDecoration(
                       "Journey price", Icons.monetization_on, validatePrice),
                   controller: priceController,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: sreenWidth * .9,
+                child: TextField(
+                  readOnly: true,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  decoration: InputDecorations.getInputTextDecoration(
+                      "Service cost", Icons.monetization_on, validatePrice),
+                  controller: serviceConstController,
                 ),
               ),
               const SizedBox(
@@ -214,7 +244,7 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
                   children: [
                     Row(
                       children: [
-                        Text(choosenDate),
+                        Text(choosenDate ?? 'Choose date'),
                         const SizedBox(
                           width: 5,
                         ),
@@ -234,7 +264,7 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
                     CommonWidgets.customVerticalDivider(),
                     Row(
                       children: [
-                        Text(choosenTime),
+                        Text(choosenTime ?? 'Choose time'),
                         const SizedBox(
                           width: 5,
                         ),
@@ -268,26 +298,49 @@ class _CreateJourneyState extends ConsumerState<CreateJourney> {
                         context, "Creating journey", false);
                     var uuid = const Uuid().v4();
                     UserModel ownerDetails = ref.read(userProvider);
-                    Journey journey = Journey(
-                        jourenyId: uuid,
-                        origin: originController.text,
-                        destination: destinationController.text,
-                        startTime: DateUtil.getDateFromString(
-                            '$choosenDate $choosenTime') as DateTime,
-                        ownerDetails: ownerDetails,
-                        journeyPricePerKM: double.parse(priceController.text),
-                        jorneyDistance: 0,
-                        createdAt: DateTime.now(),
-                        jorneyStatus: JOURNEY_STATUS_PENDING,
-                        joinedPassengers: [],
-                        jorneyType: jorneyType,
-                        ownerId: ownerDetails.userId.toString(),
-                        numberOfSits: int.parse(sitsController.text ?? '0' ),
-                        originDetails: foundPicupPlace!,
-                        destinationDetails: foundDropOfPlace!);
+                    final journeyPrice = double.parse(priceController.text);
 
-                    await JourneyService.createJorney(journey);
-                    Navigator.pushReplacementNamed(context, HOME_ROUTE);
+                    Wallet wallet =
+                        await WalletService.getFutureDriverWalletInfo(
+                            ownerDetails.userId.toString());
+
+                    if (wallet.balance < journeyServiceConst) {
+                      print(
+                          '>>>>>>>>>>>>>Wallet balance: ${wallet.balance} >>>>>>>>>>>>>> Journey cost: $journeyServiceConst');
+                      Navigator.pop(context);
+                      AlertUtil.showYesAlertDialog(
+                          context,
+                          'Insufficient wallet balance',
+                          'Please Top up your balance in order to perform this action');
+                    } else {
+                      print(
+                          '>>>>>>>>>>> Start utils: $choosenDate >>>>>>>>>>>>>>>>>>>>>>: $choosenTime');
+
+                      await WalletService.applyServiceCostOnWallet(
+                          ownerDetails.userId.toString(), journeyServiceConst);
+                      Journey journey = Journey(
+                          jourenyId: uuid,
+                          origin: originController.text,
+                          destination: destinationController.text,
+                          startTime:
+                              (choosenDate != null && choosenTime != null)
+                                  ? DateUtil.getDateFromString(
+                                      '$choosenDate $choosenTime') as DateTime
+                                  : DateTime.now(),
+                          ownerDetails: ownerDetails,
+                          journeyPricePerKM: journeyPrice,
+                          jorneyDistance: 0,
+                          createdAt: DateTime.now(),
+                          jorneyStatus: JOURNEY_STATUS_PENDING,
+                          joinedPassengers: [],
+                          jorneyType: jorneyType,
+                          ownerId: ownerDetails.userId.toString(),
+                          numberOfSits: int.parse(sitsController.text ?? '0'),
+                          originDetails: foundPicupPlace!,
+                          destinationDetails: foundDropOfPlace!);
+                      await JourneyService.createJorney(journey);
+                      Navigator.pushReplacementNamed(context, HOME_ROUTE);
+                    }
                   },
                   label: "Create jorney",
                   width: 200,

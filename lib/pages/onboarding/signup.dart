@@ -5,7 +5,6 @@ import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/UserModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/services/user_service.dart';
-import 'package:easylygo_app/strings/extracted.dart';
 import 'package:easylygo_app/utils/auth_util.dart';
 import 'package:easylygo_app/utils/user_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';

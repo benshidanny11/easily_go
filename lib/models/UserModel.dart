@@ -1,6 +1,5 @@
 import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/LocationModel.dart';
-import 'package:easylygo_app/models/wallet.dart';
 
 class UserModel {
   String? fullName;

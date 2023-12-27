@@ -37,6 +37,7 @@ class DateUtil {
   static DateTime? getDateFromString(String date) {
 
   date = date.replaceAll(RegExp(r'[\u200B-\u200D\uFEFF]'), '').trim();
+   print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Date after regular expression $date');
   DateFormat format = DateFormat("yyyy-MM-dd h:mm a");
   try {
     DateTime dateTime = format.parse(date);

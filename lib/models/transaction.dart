@@ -1,10 +1,11 @@
-import 'package:easylygo_app/models/wallet.dart';
+
 
 class TransactionModel {
   String transactionId;
   String walletId;
   String userId;
   double transactionAmount;
+  String accountNumber;
   String paymentType;
   String paymentReference;
   String transactionStatus;
@@ -20,7 +21,8 @@ class TransactionModel {
       required this.transactionDate,
       required this.comment,
       required this.walletId,
-      required this.userId
+      required this.userId,
+      required this.accountNumber,
       });
 
   Map<String, dynamic> toJson() {
@@ -34,7 +36,7 @@ class TransactionModel {
       'paymentType': paymentType,
       'transactionDate': transactionDate,
       'comment':comment,
-
+      'accountNumber':accountNumber,
     };
   }
 
@@ -47,8 +49,9 @@ class TransactionModel {
         transactionStatus: json['transactionStatus'],
         paymentReference: json['paymentReference'],
         paymentType: json['paymentType'],
-        transactionDate: json['transactionDate'],
-        comment: json['comment']);
+        transactionDate: json['transactionDate'].toDate(),
+        comment: json['comment'],
+        accountNumber: json['accountNumber'],);
   }
 
 }

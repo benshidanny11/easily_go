@@ -101,8 +101,8 @@ class _TopUpWalletPageState extends ConsumerState<TopUpWalletPage> {
                               ref.read(userProvider).phoneNumber =
                                   phoneNumberControll.text;
                              await WalletService.topUpWallet(user.userId.toString(), walletId,phoneNumberControll.text, double.parse(amount.text));
-                            //  Navigator.pop(context);
-                            //  Navigator.pop(context);
+                             Navigator.pop(context);
+                             Navigator.pop(context);
                             }
                           } catch (error) {
                             print(error);

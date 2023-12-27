@@ -91,7 +91,7 @@ class CommonWidgets {
                     ),
                     Row(
                       children: [
-                        Text(onLineStatus),
+                        Text(onLineStatus, style: textStyleContentSmall(13),),
                         Switch(
                           trackColor: MaterialStateProperty.all(
                               const Color.fromARGB(96, 234, 234, 234)),
@@ -131,6 +131,18 @@ class CommonWidgets {
             title: const Text('Wallet'),
             onTap: () {
               Navigator.pop(context);
+            },
+          ),
+         ListTile(
+            iconColor: AppColors.mainColor,
+            textColor: AppColors.mainColor,
+            leading: const Icon(
+              Icons.price_change,
+              size: 25,
+            ),
+            title: const Text('Pricing info'),
+            onTap: () {
+              Navigator.pushNamed(context, PRINCIG_INFO);
             },
           ),
           ListTile(

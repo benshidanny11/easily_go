@@ -35,6 +35,7 @@ class GettingStarted extends ConsumerWidget {
               children: [
                 ButtonBlue(
                   onPress: () {
+                    USER_MODE=CUSTOMER_MODE;
                     Navigator.pushNamed(context, SIGN_UP);
                   },
                   label: "Get started",
@@ -43,7 +44,7 @@ class GettingStarted extends ConsumerWidget {
                 const SizedBox(height:10),
                 GestureDetector(
                   onTap: () {
-                   USER_MODE="DRIVER_MOTOR_RIDER_MODE";
+                   USER_MODE=DRIVER_MOTOR_RIDER_MODE;
                    ref.read(userProvider).userRole=DRIVER_ROLE;
                    Navigator.pushNamed(context, SIGN_UP);
                   },

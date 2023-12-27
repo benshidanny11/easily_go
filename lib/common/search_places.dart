@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:easylygo_app/common/colors.dart';
 import 'package:easylygo_app/common/input_decorations.dart';
+import 'package:easylygo_app/config/config.dart';
 import 'package:easylygo_app/models/PlaceModel.dart';
 import 'package:easylygo_app/providers/app_provider.dart';
 import 'package:easylygo_app/strings/extracted.dart';
@@ -22,7 +23,7 @@ class _SearchPlasesState extends ConsumerState<SearchPlases> {
   Future<void> _findPlaces(String query) async {
     places = [];
     final placeResponse = await http.get(Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&types=geocode&key=AIzaSyCpJ4SXuPYA8dKuUqHAqwRnEJB63ThtsuM'));
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&types=geocode&key=$GOOGLE_MAP_API_KEY'));
 
     Map<String, dynamic> placeData = jsonDecode(placeResponse.body);
     placeData['predictions'].forEach((place) => places.add(PlaceModel(

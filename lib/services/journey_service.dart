@@ -5,8 +5,13 @@ import 'package:easylygo_app/constants/string_constants.dart';
 import 'package:easylygo_app/models/Journey.dart';
 import 'package:easylygo_app/models/TripRequest.dart';
 import 'package:easylygo_app/models/UserModel.dart';
+import 'package:easylygo_app/models/wallet.dart';
 import 'package:easylygo_app/services/notification_servcice.dart';
+import 'package:easylygo_app/services/wallet_service.dart';
 import 'package:easylygo_app/utils/firestore_util.dart';
+import 'package:easylygo_app/utils/location_util.dart';
+import 'package:easylygo_app/utils/math_util.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class JourneyService {
   static Future<void> createJorney(Journey journey) async {
@@ -64,24 +69,44 @@ class JourneyService {
     return controller.stream;
   }
 
-  static Future<void> approveTrip(TripRequest tripRequest) async {
-    //
+  static Future<bool> approveTrip(TripRequest tripRequest) async {
+    Wallet wallet=await WalletService.getFutureDriverWalletInfo(tripRequest.driverId);
+    if(wallet.balance>1000){
     QuerySnapshot snapshot =
         await FirebaseUtil.collectionReferene('tripRequests')
             .where('requestId', isEqualTo: tripRequest.requestId)
             .get();
     tripRequest.status = REQUEST_STATUS_APROVED;
     if (snapshot.docs.isNotEmpty) {
+      Map<String, dynamic> tripCoordnates =
+          await LocationUtil.getTripCoordnates(
+              tripRequest.pickupDetails, tripRequest.dropOfDetails);
+      final distance = await MathUtil.calculateDistance(
+          LatLng(tripCoordnates['pickUpLocation']['lat'],
+              tripCoordnates['pickUpLocation']['lng']),
+          LatLng(tripCoordnates['dropOfLocation']['lat'],
+              tripCoordnates['dropOfLocation']['lng']));
+      double dist = double.parse(distance);
+      if (dist < 3) {
+        await WalletService.applyServiceCostOnWallet(tripRequest.driverId, 500);
+      } else {
+        await WalletService.applyServiceCostOnWallet(
+            tripRequest.driverId, 1000);
+      }
       await FirebaseUtil.collectionReferene('tripRequests')
           .doc(snapshot.docs[0].id)
           .update(tripRequest.toJson());
     }
-   await NotificationService.createNotification(
+    await NotificationService.createNotification(
         tripRequest.customerDetails.docId.toString(),
         tripRequest,
         'Trip request approved',
         'Your trip request was approved',
         APPROVED_TRIP_NOTIFICARION);
+      return true;
+    }else{
+      return false;
+    }
   }
 
   static Future<bool> rejectTrip(TripRequest tripRequest) async {
@@ -170,12 +195,12 @@ class JourneyService {
       await FirebaseUtil.collectionReferene('journeys')
           .doc(snapshot.docs[0].id)
           .update(journey.toJson());
-           await NotificationService.createNotification(
-        journey.ownerDetails.docId.toString(),
-        journey,
-        'Journey was joined',
-        'You journey was joined by ${customer.fullName}',
-        JOIN_JOURNEY_NOTIFICATION);
+      await NotificationService.createNotification(
+          journey.ownerDetails.docId.toString(),
+          journey,
+          'Journey was joined',
+          'You journey was joined by ${customer.fullName}',
+          JOIN_JOURNEY_NOTIFICATION);
       return true;
     }
     return false;

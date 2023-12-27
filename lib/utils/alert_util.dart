@@ -56,4 +56,25 @@ class AlertUtil {
       },
     );
   }
+
+   static void showYesAlertDialog(BuildContext context,
+      String title, String alertContent) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(alertContent),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async{
+                Navigator.of(context).pop();
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

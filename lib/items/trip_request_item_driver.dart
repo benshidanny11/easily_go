@@ -8,21 +8,28 @@ import 'package:easylygo_app/services/journey_service.dart';
 import 'package:easylygo_app/utils/alert_util.dart';
 import 'package:flutter/material.dart';
 
-class TripRequestItemDriver extends StatelessWidget {
+class TripRequestItemDriver extends StatefulWidget {
   final TripRequest tripRequest;
   const TripRequestItemDriver({super.key, required this.tripRequest});
 
   @override
+  State<TripRequestItemDriver> createState() => _TripRequestItemDriverState();
+}
+
+class _TripRequestItemDriverState extends State<TripRequestItemDriver> {
+  BuildContext? ctx;
+
+  @override
   Widget build(BuildContext context) {
-    final scrreenWidth=MediaQuery.of(context).size.width;
+    final scrreenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, VIEW_TRIP_REQUEST_DETAILS,
-            arguments: tripRequest);
+            arguments: widget.tripRequest);
       },
       child: Container(
         padding: const EdgeInsets.all(5),
-        margin: const EdgeInsets.all( 5),
+        margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1, color: const Color.fromARGB(255, 232, 232, 232)),
@@ -33,8 +40,8 @@ class TripRequestItemDriver extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  child: const Icon(Icons.account_circle, size: 30,
-                      color: AppColors.mainColor),
+                  child: const Icon(Icons.account_circle,
+                      size: 30, color: AppColors.mainColor),
                 ),
                 const SizedBox(
                   width: 5,
@@ -43,81 +50,83 @@ class TripRequestItemDriver extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tripRequest.customerDetails.fullName.toString(),
+                      widget.tripRequest.customerDetails.fullName.toString(),
                       style: textStyleTitle(17),
                     ),
                     const SizedBox(
                       height: 3,
                     ),
-                    Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                      Column(
+                    Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                            const  Icon(
-                                Icons.my_location,
-                                size: 15,
-                                color: AppColors.mainColor,
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.my_location,
+                                    size: 15,
+                                    color: AppColors.mainColor,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  SizedBox(
+                                    width: scrreenWidth * .63,
+                                    child: Text(
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      widget.tripRequest.requestOrigin,
+                                      style: textStyleTitle(12),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            const  SizedBox(
-                                width: 2,
+                              const SizedBox(
+                                height: 3,
                               ),
-                              SizedBox(
-                                width: scrreenWidth * .63,
-                                child: Text(
-                                  maxLines: 2,
-                                  overflow: TextOverflow
-                                      .ellipsis,
-                                  tripRequest.requestOrigin,
-                                  style: textStyleTitle(12),
-                                ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    size: 15,
+                                    color: AppColors.mainColor,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  SizedBox(
+                                    width: scrreenWidth * .63,
+                                    child: Text(
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      widget.tripRequest.requestDestination,
+                                      style: textStyleTitle(12),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                         const SizedBox(
+                          const SizedBox(
                             height: 3,
                           ),
-                          Row(
-                            children: [
-                            const  Icon(
-                                Icons.location_on,
-                                 size: 15,
-                                color: AppColors.mainColor,
-                              ),
-                            const  SizedBox(
-                                width: 2,
-                              ),
-                              SizedBox(
-                                width: scrreenWidth * .63,
-                                child: Text(
-                                  maxLines: 2,
-                                  overflow: TextOverflow
-                                      .ellipsis,
-                                  tripRequest.requestDestination,
-                                  style: textStyleTitle(12),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                     const SizedBox(
-                        height: 3,
-                      ),
-                      CommonWidgets.tag(
-                          tripRequest.status == REQUEST_STATUS_PENDING
-                              ? AppColors.colorWarning
-                              : tripRequest.status == REQUEST_STATUS_APROVED
-                                  ? AppColors.colorSuccess
-                                  : AppColors.colorError,
-                          tripRequest.status)
-                    ])
+                          CommonWidgets.tag(
+                              widget.tripRequest.status ==
+                                      REQUEST_STATUS_PENDING
+                                  ? AppColors.colorWarning
+                                  : widget.tripRequest.status ==
+                                          REQUEST_STATUS_APROVED
+                                      ? AppColors.colorSuccess
+                                      : AppColors.colorError,
+                              widget.tripRequest.status)
+                        ])
                   ],
                 ),
               ],
             ),
-            tripRequest.status == REQUEST_STATUS_PENDING
+            widget.tripRequest.status == REQUEST_STATUS_PENDING
                 ? PopupMenuButton<String>(
                     onSelected: (String result) async {
                       AlertUtil.showLoadingAlertDialig(
@@ -127,14 +136,28 @@ class TripRequestItemDriver extends StatelessWidget {
                               : 'Rejecting request',
                           false);
                       if (result == REQUEST_STATUS_APROVED) {
-                        await JourneyService.approveTrip(tripRequest);
+                        bool isAprovded = await JourneyService.approveTrip(
+                            widget.tripRequest);
+                        Navigator.pop(context);
+                        if (isAprovded) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Request has been $result!"),
+                            backgroundColor: AppColors.colorSuccess,
+                          ));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "Request has not been $result, please Top up the wallet to proceed!"),
+                            backgroundColor: AppColors.colorError,
+                          ));
+                        }
                       } else {
-                        await JourneyService.rejectTrip(tripRequest);
+                        await JourneyService.rejectTrip(widget.tripRequest);
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Request has been $result!"),
+                        ));
                       }
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Request has been $result!"),
-                      ));
                     },
                     itemBuilder: (BuildContext context) =>
                         <PopupMenuEntry<String>>[
