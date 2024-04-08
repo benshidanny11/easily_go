@@ -46,12 +46,12 @@ class EasylyGoMapState extends ConsumerState<EasylyGoMap> {
         customerMarker = data.buffer.asUint8List();
       });
     });
-    rootBundle.load('assets/images/carmarker_light.png').then((data) {
+    rootBundle.load('assets/images/carmarker.png').then((data) {
       setState(() {
         driverMarker = data.buffer.asUint8List();
       });
     });
-    rootBundle.load('assets/images/motor_bike_marker_light.png').then((data) {
+    rootBundle.load('assets/images/motor_bike_marker.png').then((data) {
       setState(() {
         motoRiderMarker = data.buffer.asUint8List();
       });

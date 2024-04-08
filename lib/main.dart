@@ -70,8 +70,8 @@ class MyApp extends StatelessWidget {
         NOTIFICATION_PAGE:(context) => const NotificationPage(),
         NOTIFICATIONS_LIST_PAGE:(context) => const NotificationsList(),
         JOIN_JOURNEY_NOTIFICATION_PAGE:(context) => const JourneyJoinNotification(),
-        TOPUP_WALLET_PAGE:(context) => TopUpWalletPage(),
-        PRINCIG_INFO:(context) => PricingPage()
+        TOPUP_WALLET_PAGE:(context) =>const TopUpWalletPage(),
+        PRINCIG_INFO:(context) =>const PricingPage()
       },
     );
   }

@@ -69,10 +69,11 @@ class _HomePageState extends ConsumerState<CustomerHomePage> {
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => super.widget));
+              Navigator.popAndPushNamed(context, CUSTOMER_ROUTE);
+              // Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (BuildContext context) => super.widget));
             },
             child: const Icon(Icons.refresh),
           ),
@@ -225,20 +226,22 @@ class _HomePageState extends ConsumerState<CustomerHomePage> {
       body: Container(
         child: pages[index],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.moneyBill), label: "Payment")
-        ],
-        onTap: (value) {
-          setState(() {
-            index = value;
-          });
-        },
-        currentIndex: index,
-        selectedItemColor: AppColors.mainColor,
-      ),
+      
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(FontAwesomeIcons.moneyBill), label: "Payment")
+      //   ],
+      //   onTap: (value) {
+      //     setState(() {
+      //       index = value;
+      //     });
+      //   },
+      //   currentIndex: index,
+      //   selectedItemColor: AppColors.mainColor,
+      // ),
+
     );
   }
 }

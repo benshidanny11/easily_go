@@ -111,8 +111,9 @@ class _CustomerCreateTripRequestState
                         keyboardType: TextInputType.multiline,
                         readOnly: true,
                         decoration: const InputDecoration(
-                            labelText: 'Drop off location'),
+                            labelText: 'Drop off location',),
                         controller: dropOffLocationController,
+                        
                       ),
                     ),
                     GestureDetector(

@@ -201,7 +201,7 @@ class CommonWidgets {
       padding: const EdgeInsets.only(left: 5, right: 5, top: 0, bottom: 3),
       child: Text(
         label,
-        style: const TextStyle(color: Colors.white, fontSize: 10),
+        style: const TextStyle(color: Colors.white, fontSize: 8),
       ),
     );
   }
