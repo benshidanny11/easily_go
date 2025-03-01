@@ -1,0 +1,6 @@
+const GOOGLE_MAP_API_KEY='AIzaSyAtEWPHFSTSuRFSGLqmY_MO_ah-ntyeIko';
+const PAYMENT_API_LINK_RWANDA='https://payments.paypack.rw/api';
+const PAYMENT_API_ID_RWANDA='36012514-dc8c-11ed-b80f-deadd59c3c98';
+const PAYMENT_API_SECRET_RWANDA='b78b2bbf59fd73e7f2aa51475c056330da39a3ee5e6b4b0d3255bfef95601890afd80709';
+
+
