@@ -9,6 +9,7 @@ import 'package:easylygo_app/utils/firestore_util.dart';
 import 'package:easylygo_app/utils/image_util.dart';
 import 'package:easylygo_app/utils/location_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
@@ -65,6 +66,8 @@ class UserService {
   static Future<void> signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
+     GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.disconnect();
     await FirebaseAuth.instance.signOut();
   }
 
